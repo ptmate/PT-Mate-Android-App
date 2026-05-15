@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>terms-on</title>
+    <g id="terms-on" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" fill="#81DB24" cx="15" cy="15" r="15"></circle>
+        <path d="M8.10769231,8 C8.70197497,8 9.18695116,8.46371622 9.21417896,9.04589373 L9.21538462,9.09756098 L9.2151566,15.8048576 L21.8923077,15.804878 C22.4865904,15.804878 22.9715665,16.2685943 22.9987943,16.8507718 L23,16.902439 C23,17.4912862 22.5320033,17.9718266 21.9444519,17.9988054 L21.8923077,18 L8.10769231,18 C7.51340964,18 7.02843346,17.5362838 7.00120566,16.9541063 L7,16.902439 L7,9.09756098 C7,8.49139479 7.49593074,8 8.10769231,8 Z" id="Path-4" fill="#FFFFFF" fill-rule="nonzero" transform="translate(15.000000, 13.000000) rotate(-45.000000) translate(-15.000000, -13.000000) "></path>
+    </g>
+</svg>

@@ -1,0 +1,8 @@
+<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="notes">
+<path id="Rectangle" fill-rule="evenodd" clip-rule="evenodd" d="M27 8C27 5.79086 25.2091 4 23 4H8C5.79086 4 4 5.79086 4 8V23C4 25.2091 5.79086 27 8 27H23C25.2091 27 27 25.2091 27 23V8ZM8 6H23L23.1493 6.00549C24.1841 6.08183 25 6.94564 25 8V23L24.9945 23.1493C24.9182 24.1841 24.0544 25 23 25H8L7.85074 24.9945C6.81588 24.9182 6 24.0544 6 23V8L6.00549 7.85074C6.08183 6.81588 6.94564 6 8 6Z" fill="#1DC5C9"/>
+<path id="Line 10 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M9 10C9 9.44772 9.44772 9 10 9H19C19.5523 9 20 9.44772 20 10C20 10.5523 19.5523 11 19 11H10C9.44772 11 9 10.5523 9 10Z" fill="#1DC5C9"/>
+<path id="Line 11 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M9 14C9 13.4477 9.44772 13 10 13H16C16.5523 13 17 13.4477 17 14C17 14.5523 16.5523 15 16 15H10C9.44772 15 9 14.5523 9 14Z" fill="#1DC5C9"/>
+<path id="Line 12 (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M9 18C9 17.4477 9.44772 17 10 17H19C19.5523 17 20 17.4477 20 18C20 18.5523 19.5523 19 19 19H10C9.44772 19 9 18.5523 9 18Z" fill="#1DC5C9"/>
+</g>
+</svg>

@@ -1,0 +1,109 @@
+{
+  "project_info": {
+    "project_number": "834489825060",
+    "firebase_url": "https://ptmate-c6f70.firebaseio.com",
+    "project_id": "ptmate-c6f70",
+    "storage_bucket": "ptmate-c6f70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834489825060:android:128ecedbff2b1984",
+        "android_client_info": {
+          "package_name": "net.ptmate.ptmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834489825060-s0h6ulrhlgf5j67ocv8nu7m6njo42urp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.ptmate.ptmate",
+            "certificate_hash": "253628d5c64515c2b03c057969ed7546cf571b67"
+          }
+        },
+        {
+          "client_id": "834489825060-c8il9ln4iiv3e8uihtf8m6d82at6mrpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFlPoz2mV2XtaC8d_St94d7zZBiLXy0HM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834489825060-c8il9ln4iiv3e8uihtf8m6d82at6mrpp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834489825060-483mlveaqs97gh5ettu0bhls6k160lqr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sebastianwalther.PTMateApp",
+                "app_store_id": "1465347277"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834489825060:android:a722cd262b050b5c39a5b1",
+        "android_client_info": {
+          "package_name": "net.ptmate.ptmate_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "834489825060-20vm3d8f864902n273nla2r9fr94i1r8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.ptmate.ptmate_client",
+            "certificate_hash": "aa49a3c7d705a218306333ee6441001a2cb1d2e7"
+          }
+        },
+        {
+          "client_id": "834489825060-omnf7uejr30q505enk0cnvp7c589ague.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.ptmate.ptmate_client",
+            "certificate_hash": "253628d5c64515c2b03c057969ed7546cf571b67"
+          }
+        },
+        {
+          "client_id": "834489825060-c8il9ln4iiv3e8uihtf8m6d82at6mrpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFlPoz2mV2XtaC8d_St94d7zZBiLXy0HM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834489825060-c8il9ln4iiv3e8uihtf8m6d82at6mrpp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834489825060-483mlveaqs97gh5ettu0bhls6k160lqr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sebastianwalther.PTMateApp",
+                "app_store_id": "1465347277"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

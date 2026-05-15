@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>timer-down</title>
+    <g id="timer-down" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <polygon id="Triangle" stroke="#FFFFFF" stroke-width="3" fill="#FFFFFF" transform="translate(29.500000, 29.500000) scale(1, -1) translate(-29.500000, -29.500000) " points="29.5 22 37 37 22 37"></polygon>
+    </g>
+</svg>

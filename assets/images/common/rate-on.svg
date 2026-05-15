@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="50px" viewBox="0 0 50 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>rate-on</title>
+    <g id="rate-on" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="Star" fill="#13131B" points="25 32.5 16.1832212 37.1352549 17.8670761 27.3176275 10.7341523 20.3647451 20.5916106 18.9323725 25 10 29.4083894 18.9323725 39.2658477 20.3647451 32.1329239 27.3176275 33.8167788 37.1352549"></polygon>
+    </g>
+</svg>

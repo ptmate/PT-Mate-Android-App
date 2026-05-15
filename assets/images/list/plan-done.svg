@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="60px" height="60px" viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>plan-done</title>
+    <g id="plan-done" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M20.5230769,20 C21.3402156,20 22.0070578,20.6492027 22.0444961,21.4642512 L22.0461538,21.5365854 L22.0458403,30.9268007 L39.4769231,30.9268293 C40.2940617,30.9268293 40.960904,31.576032 40.9983422,32.3910805 L41,32.4634146 C41,33.2878007 40.3565046,33.9605572 39.5486213,33.9983275 L39.4769231,34 L20.5230769,34 C19.7059383,34 19.039096,33.3507973 19.0016578,32.5357488 L19,32.4634146 L19,21.5365854 C19,20.6879527 19.6819048,20 20.5230769,20 Z" id="Path-4" fill="#FFFFFF" fill-rule="nonzero" transform="translate(30.000000, 27.000000) rotate(-45.000000) translate(-30.000000, -27.000000) "></path>
+    </g>
+</svg>

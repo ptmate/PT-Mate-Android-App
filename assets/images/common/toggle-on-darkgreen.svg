@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="20px" viewBox="0 0 36 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>toggle-on-darkgreen</title>
+    <defs>
+        <linearGradient x1="29.2789035%" y1="34.5679012%" x2="118.994979%" y2="65.1822251%" id="linearGradient-1">
+            <stop stop-color="#81DB24" offset="0%"></stop>
+            <stop stop-color="#53A238" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="toggle-on-darkgreen" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="url(#linearGradient-1)" x="0" y="0" width="36" height="20" rx="10"></rect>
+        <circle id="Oval" fill="#FFFFFF" cx="26" cy="10" r="8"></circle>
+    </g>
+</svg>

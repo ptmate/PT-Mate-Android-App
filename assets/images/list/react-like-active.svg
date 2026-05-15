@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>react-like-active</title>
+    <g id="react-like-active" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="like" transform="translate(2.000000, 3.000000)" fill="#FF5A4E" fill-rule="nonzero">
+            <path d="M11.75,0 C9.85484375,0 8.63721875,1.24009375 8,2.35428125 C7.36278125,1.24009375 6.14515625,0 4.25,0 C1.84490625,0 0,1.84203125 0,4.285125 C0,6.93421875 2.311375,8.73825 5.76290625,11.4697188 C7.45296875,12.806 7.5615625,12.9075625 8,13.2600313 C8.3578125,12.972375 8.55584375,12.7990625 10.2370937,11.4697188 C13.688625,8.73825 16,6.93421875 16,4.285125 C16,1.8420625 14.1550938,0 11.75,0 Z" id="Path"></path>
+        </g>
+    </g>
+</svg>
