@@ -335,8 +335,13 @@ class _EditResultsPageState extends State<EditResultsPage> {
             }
             rweight.add(label);
           }
+        } else {
+          rreps.add("");
+          rweight.add("");
         }
       } else {
+        rreps.add("");
+        rweight.add("");
         if (block.timeRes != null) {
           tmins = (block.timeRes / 60).floor();
           tsecs = block.timeRes - tmins * 60;
@@ -402,7 +407,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
     if (value != "") {
       val = int.parse(value);
     }
-    if (rrounds[pos] != "") {
+    if (rrounds.length > pos && rrounds[pos] != "") {
       var ar = rrounds[pos].split('-');
       if (ar.length > 1) {
         for (var i = 1; i < ar.length; i++) {
@@ -818,6 +823,21 @@ class _EditResultsPageState extends State<EditResultsPage> {
           amrap,
           valueSimple,
           scaledSimple);
+
+      for (var j = 0; j < block.movements.length; j++) {
+        if (reps.length > j) block.movements[j].resReps = reps[j];
+        if (weight.length > j) block.movements[j].resWeight = weight[j];
+        if (rrounds.length > j && rrounds[j] != "") {
+          block.movements[j].resRepsRounds = rrounds[j];
+        }
+        if (wrounds.length > j && wrounds[j] != "") {
+          block.movements[j].resWeightRounds = wrounds[j];
+        }
+      }
+      block.notesSimple = nsimple;
+      if (amrap.length > 0) block.amrapSimple = amrap;
+      if (valueSimple.length > 0) block.valueSimple = valueSimple;
+      if (scaledSimple.length > 0) block.scaledSimple = scaledSimple;
     }
 
     if (!block.simple) {

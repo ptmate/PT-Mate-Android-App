@@ -36,7 +36,7 @@ class EmptyMessage extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/illustration/circles-" +
-                    GlobalData.space.theme +
+                    (GlobalData.space.theme == "default" || GlobalData.space.theme == "" ? "vividgreen" : GlobalData.space.theme) +
                     (GlobalUI.dark ? "-dark" : "") +
                     ".png"),
                 fit: BoxFit.contain,

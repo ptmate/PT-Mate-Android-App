@@ -86,7 +86,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "net.ptmate.ptmate_client"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.0.12077973"
 
     // sourceSets {

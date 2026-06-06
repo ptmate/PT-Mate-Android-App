@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:animations/animations.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:animations/animations.dart';
 import 'package:intl/intl.dart';
 import 'package:ptmate_client/_data/models.dart';
 import 'package:ptmate_client/_data/sender.dart';
