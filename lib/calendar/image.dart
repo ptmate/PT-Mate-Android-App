@@ -193,7 +193,21 @@ class _ExImagePageState extends State<ExImagePage> {
                   children: [
                     Container (
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      child: Image.network(img)
+                      child: img != "" ? Image.network(
+                        img,
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            alignment: Alignment.center,
+                            child: CircularProgressIndicator(color: Colors.white),
+                          );
+                        },
+                      ) : Container(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(color: Colors.white),
+                      )
                     ),
                     getWeights(),
                     getHistory(),

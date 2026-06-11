@@ -44,7 +44,7 @@ class _ImagePageState extends State<ImagePage> {
               margin: EdgeInsets.only(bottom: 30),
               child: TitleLabelBack(""),
             ),
-            Image.network(img)
+            img != "" ? Image.network(img) : Container()
           ]
         ),
       ),
@@ -58,17 +58,28 @@ class _ImagePageState extends State<ImagePage> {
     if(widget.post == "") {
       final ref = FirebaseStorage.instance.ref().child("images/messaging/"+widget.id+"/"+widget.image+".jpg");
       var url = await ref.getDownloadURL();
-      setState(() {
-        img = url;
-      });
+      if (mounted) {
+        setState(() {
+          img = url;
+        });
+      }
     } else {
-      final ref = FirebaseStorage.instance.ref().child(widget.post);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img = url;
-      });
+      if (widget.post.startsWith("http")) {
+        if (mounted) {
+          setState(() {
+            img = widget.post;
+          });
+        }
+      } else {
+        final ref = FirebaseStorage.instance.ref().child(widget.post);
+        var url = await ref.getDownloadURL();
+        if (mounted) {
+          setState(() {
+            img = url;
+          });
+        }
+      }
     }
-    
   }
 
 

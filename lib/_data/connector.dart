@@ -388,7 +388,7 @@ class Connector {
             if (data["date"] != null)
               {
                 date = DateTime.fromMillisecondsSinceEpoch(
-                    data["date"].toInt() * 1000)
+                    (int.tryParse(data["date"].toString()) ?? 0) * 1000)
               },
             sections = [],
             if (data["sections"] != null)
@@ -769,7 +769,7 @@ class Connector {
                         if (comm["date"] != null)
                           {
                             cdate = DateTime.fromMillisecondsSinceEpoch(
-                                comm["date"].toInt() * 1000)
+                                (int.tryParse(comm["date"].toString()) ?? 0) * 1000)
                           },
                         comments.add(ModelComment(
                             ckey,
@@ -1192,7 +1192,7 @@ class Connector {
                             if (comm["date"] != null)
                               {
                                 cdate = DateTime.fromMillisecondsSinceEpoch(
-                                    comm["date"].toInt() * 1000)
+                                    (int.tryParse(comm["date"].toString()) ?? 0) * 1000)
                               },
                             comments.add(ModelComment(
                                 ckey,
@@ -2712,7 +2712,7 @@ class Connector {
                   if (inv.id == index) {add = false}
                 },
               date = DateTime.fromMillisecondsSinceEpoch(
-                  (data["date"] * 1000).toInt()),
+                  ((int.tryParse(data["date"].toString()) ?? 0) * 1000).toInt()),
               due = DateTime.fromMillisecondsSinceEpoch(
                   (data["due"] * 1000).toInt()),
               price = data["price"].toDouble(),
@@ -3694,7 +3694,7 @@ class Connector {
                       index,
                       (data["text"] is String ? data["text"] : ""),
                       DateTime.fromMillisecondsSinceEpoch(
-                          (data["date"] * 1000).toInt())))
+                          ((int.tryParse(data["date"].toString()) ?? 0) * 1000).toInt())))
                 }
             }));
 
@@ -3878,7 +3878,7 @@ class Connector {
                 {
                   if (item.id == index) {add = false}
                 },
-              seq = ((data["date"] * 1000).toInt() * 10000) - 1,
+              seq = (((int.tryParse(data["date"].toString()) ?? 0) * 1000).toInt() * 10000) - 1,
               if (data["comments"] != null)
                 {
                   data["comments"].forEach((cindex, comm) => ({
@@ -3887,7 +3887,7 @@ class Connector {
                             (comm["text"] is String ? comm["text"] : ""),
                             (comm["image"] is String ? comm["image"] : ""),
                             DateTime.fromMillisecondsSinceEpoch(
-                                (comm["date"] * 1000).toInt()),
+                                ((int.tryParse(comm["date"].toString()) ?? 0) * 1000).toInt()),
                             (comm["author"] is String ? comm["author"] : ""),
                             (comm["reaction1"] is String
                                 ? comm["reaction1"]
@@ -3914,14 +3914,14 @@ class Connector {
                       (data["text"] is String ? data["text"] : ""),
                       (data["image"] is String ? data["image"] : ""),
                       DateTime.fromMillisecondsSinceEpoch(
-                          (data["date"] * 1000).toInt()),
+                          ((int.tryParse(data["date"].toString()) ?? 0) * 1000).toInt()),
                       (data["author"] is String ? data["author"] : ""),
                       (data["reaction1"] is String ? data["reaction1"] : ""),
                       (data["reaction2"] is String ? data["reaction2"] : ""),
                       (data["reaction3"] is String ? data["reaction3"] : ""),
                       (data["reaction4"] is String ? data["reaction4"] : ""),
                       "",
-                      ((data["date"] * 1000).toInt() * 10000),
+                      (((int.tryParse(data["date"].toString()) ?? 0) * 1000).toInt() * 10000),
                       ""))
                 }
             }));
@@ -4017,7 +4017,7 @@ class Connector {
                       (data["name"] is String ? data["name"] : "Document"),
                       (data["ext"] is String ? data["ext"] : ""),
                       DateTime.fromMillisecondsSinceEpoch(
-                          (data["date"] * 1000).toInt())))
+                          ((int.tryParse(data["date"].toString()) ?? 0) * 1000).toInt())))
                 }
             }));
 

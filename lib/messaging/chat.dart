@@ -429,7 +429,7 @@ class _ChatPageState extends State<ChatPage> {
                   MaterialPageRoute(
                       builder: (context) => ImagePage(id, msg.image, "")));
             },
-            child: Image.network(getMessageImage(msg.image)),
+            child: getMessageImage(msg.image) != "" ? Image.network(getMessageImage(msg.image)) : Container(),
           ),
           Text(
             msg.text,
@@ -464,7 +464,7 @@ class _ChatPageState extends State<ChatPage> {
                   MaterialPageRoute(
                       builder: (context) => ImagePage(id, msg.image, "")));
             },
-            child: Image.network(getMessageImage(msg.image)),
+            child: getMessageImage(msg.image) != "" ? Image.network(getMessageImage(msg.image)) : Container(),
           ),
           Text(
             msg.text,

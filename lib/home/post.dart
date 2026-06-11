@@ -266,12 +266,11 @@ class _PostPageState extends State<PostPage> {
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container (
-          foregroundDecoration: BoxDecoration(
+          foregroundDecoration: vimg != "" ? BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(vimg),
               fit: BoxFit.contain),
-              //fit: BoxFit.fill),
-          ),
+          ) : null,
         )
       );
     } else if(!newImage && imgOrig == "") {

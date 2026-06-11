@@ -850,7 +850,7 @@ class _HomePageState extends State<HomePage> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ImagePage("", "", item.image)));
+                    builder: (context) => ImagePage("", "", item.url != "" ? item.url : item.image)));
           },
           child: Container(
               margin: EdgeInsets.only(top: 15),
@@ -863,11 +863,10 @@ class _HomePageState extends State<HomePage> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: Container(
-                    foregroundDecoration: BoxDecoration(
+                    foregroundDecoration: item.url != "" ? BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(item.url), fit: BoxFit.cover),
-                      //fit: BoxFit.fill),
-                    ),
+                    ) : null,
                   ))));
     } else {
       return Container();

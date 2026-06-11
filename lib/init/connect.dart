@@ -211,6 +211,7 @@ androidIconId: "appicon.MOVEWELL",iosIcon: "AppIcon");*/
       setState(() {
         _loaded = nxt;
         _width = (nxt * 10).toDouble();
+        if (_width > 100) _width = 100;
       });
       if (_loaded == 10) {
         //_gotoNext();

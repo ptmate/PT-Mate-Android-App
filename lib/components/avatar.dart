@@ -99,12 +99,11 @@ class _AvatarState extends State<Avatar> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(size/2),
           child: Container (
-            foregroundDecoration: BoxDecoration(
+            foregroundDecoration: img != "" ? BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(img),
                 fit: BoxFit.cover),
-                //fit: BoxFit.fill),
-            ),
+            ) : null,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(size/2),
               color: AppColors.AvatarColor,

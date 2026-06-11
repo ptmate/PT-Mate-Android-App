@@ -229,7 +229,7 @@ class _PostItemState extends State<PostItem> {
       getImage();
       return InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ImagePage("", "", item.image)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ImagePage("", "", item.url != "" ? item.url : item.image)));
         },
         child: Container (
           margin: EdgeInsets.only(top: 15),
@@ -242,12 +242,11 @@ class _PostItemState extends State<PostItem> {
           child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
             child: Container (
-              foregroundDecoration: BoxDecoration(
+              foregroundDecoration: img != "" ? BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(img),
                   fit: BoxFit.cover),
-                  //fit: BoxFit.fill),
-              ),
+              ) : null,
             )
           )
         )
