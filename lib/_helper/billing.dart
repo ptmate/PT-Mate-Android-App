@@ -14,7 +14,7 @@ class HelperBill {
         }
       }
     }
-    DateFormat df = DateFormat("mm/yyyy");
+    DateFormat df = DateFormat("MM/yyyy");
     for (var sub in GlobalData.debits) {
       if (products.length == 0 || products.contains(sub.plan)) {
         var sessions = 0;
@@ -176,7 +176,7 @@ class HelperBill {
         valid = true;
       }
     }
-    DateFormat df = DateFormat("mm/yyyy");
+    DateFormat df = DateFormat("MM/yyyy");
     for (var sub in GlobalData.debits) {
       var sessions = 0;
       sessions = sub.sessions;

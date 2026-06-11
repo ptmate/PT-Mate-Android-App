@@ -201,6 +201,20 @@ class _EventPageState extends State<EventPage> {
     List clients = [];
     List waiting = [];
     bool show = true;
+    var cname = GlobalUser.name;
+    var cemail = GlobalUser.email;
+    if (client != GlobalData.space.client) {
+      for (var cl in GlobalData.space.linked) {
+        if (cl.id == client) {
+          cname = cl.name;
+        }
+      }
+      for (var conn in GlobalData.connect) {
+        if (conn.client == client && conn.email != "") {
+          cemail = conn.email;
+        }
+      }
+    }
     if(item.waiting != null) {
       waiting = item.waiting;
     }
@@ -214,7 +228,7 @@ class _EventPageState extends State<EventPage> {
       clients.add(client);
       FirebaseSender.addActivity("bookingevent", GlobalUser.uid+","+item.id);
       FirebaseSender.sendPushMessage(GlobalData.space.token, "Event booking", GlobalUser.name+" just booked into "+item.name+" "+HelperCal.getSpecialDate(item.date) +".", "event", id, []);
-      sendEmailConfirmation("booked");
+      sendEmailConfirmation("booked", cemail, cname);
 
       // Local Notifications
       HelperCal.addScheduledNotification(item, GlobalData.schedule);
@@ -243,7 +257,7 @@ class _EventPageState extends State<EventPage> {
 
       msg = "Booking successfully cancelled";
       FirebaseSender.addActivity("bookingeventcancelled", GlobalUser.uid+","+item.id);
-      sendEmailConfirmation("booked");
+      sendEmailConfirmation("canceled", cemail, cname);
     }
 
     FirebaseSender.bookSession(item.id, clients, "events", []);
@@ -260,14 +274,15 @@ class _EventPageState extends State<EventPage> {
   }
 
 
-  sendEmailConfirmation(type) {
+  sendEmailConfirmation(type, email, clientName) {
     if(GlobalData.space.emailReminder && GlobalData.space.clientEmailReminder) {
       HttpsCallable callable = FirebaseFunctions.instance.httpsCallable("sendReminderV2");
       callable.call(
         <String, dynamic>{
           "type": type,
           "name": GlobalData.space.business,
-          "email": GlobalUser.email,
+          "email": email,
+          "clientName": clientName,
           "session": item.name,
           "time": GlobalUI.dateTime.format(item.date),
           "id": GlobalData.space.id,
@@ -286,6 +301,20 @@ class _EventPageState extends State<EventPage> {
 
   updateWaiting(type, client) {
     List clients = [];
+    var cname = GlobalUser.name;
+    var cemail = GlobalUser.email;
+    if (client != GlobalData.space.client) {
+      for (var cl in GlobalData.space.linked) {
+        if (cl.id == client) {
+          cname = cl.name;
+        }
+      }
+      for (var conn in GlobalData.connect) {
+        if (conn.client == client && conn.email != "") {
+          cemail = conn.email;
+        }
+      }
+    }
     String msg = "You entered the waiting list";
     if(type == "add") {
       for(var cl in item.waiting) {

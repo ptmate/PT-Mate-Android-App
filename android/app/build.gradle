@@ -131,7 +131,9 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            if (keystoreProperties["storeFile"] && !keystoreProperties["storeFile"].isEmpty()) {
+                signingConfig signingConfigs.release
+            }
             // Enable code shrinking if needed
             minifyEnabled false
             shrinkResources false

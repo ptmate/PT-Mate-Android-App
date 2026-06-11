@@ -788,221 +788,246 @@ class Connector {
                                 ? prog["benchmark"]
                                 : false)
                           },
-                        prog["blocks"].forEach((key, block) => ({
-                              ex = [],
-                              cycles = 0,
-                              bname = "",
-                              logResults = true,
-                              time = 0,
-                              timeGroup = [],
-                              units = [],
-                              unit = "",
-                              notes = [],
-                              note = "",
-                              simple = false,
-                              snotes = "",
-                              valueSimple = [],
-                              amrapSimple = [],
-                              scaledSimple = [],
-                              unitSimple = "reps",
-                              for (var i = 0; i < block["exId"].length; i++)
-                                {
-                                  wtype = "per",
-                                  if (block["exWeightType"] != null)
+                        (prog["blocks"] is List
+                                ? {
+                                    for (var i = 0;
+                                        i < prog["blocks"].length;
+                                        i++)
+                                      if (prog["blocks"][i] != null)
+                                        i.toString(): prog["blocks"][i]
+                                  }
+                                : prog["blocks"])
+                            .forEach((key, block) => ({
+                                  ex = [],
+                                  cycles = 0,
+                                  bname = "",
+                                  logResults = true,
+                                  time = 0,
+                                  timeGroup = [],
+                                  units = [],
+                                  unit = "",
+                                  notes = [],
+                                  note = "",
+                                  simple = false,
+                                  snotes = "",
+                                  valueSimple = [],
+                                  amrapSimple = [],
+                                  scaledSimple = [],
+                                  unitSimple = "reps",
+                                  for (var i = 0; i < block["exId"].length; i++)
                                     {
-                                      wtype =
-                                          (block["exWeightType"][i] is String
+                                      wtype = "per",
+                                      if (block["exWeightType"] != null)
+                                        {
+                                          wtype = (block["exWeightType"][i]
+                                                  is String
                                               ? block["exWeightType"][i]
                                               : "kg")
-                                    },
-                                  exRepsRounds = "",
-                                  if (block["exRepsRounds"] != null)
-                                    {
-                                      if (block["exRepsRounds"].length > i)
+                                        },
+                                      exRepsRounds = "",
+                                      if (block["exRepsRounds"] != null)
                                         {
-                                          exRepsRounds = (block["exRepsRounds"]
-                                                  [i] is String
-                                              ? block["exRepsRounds"][i]
-                                              : "")
-                                        }
-                                    },
-                                  exWeightRounds = "",
-                                  if (block["exWeightRounds"] != null)
-                                    {
-                                      if (block["exWeightRounds"].length > i)
+                                          if (block["exRepsRounds"].length > i)
+                                            {
+                                              exRepsRounds =
+                                                  (block["exRepsRounds"][i]
+                                                          is String
+                                                      ? block["exRepsRounds"][i]
+                                                      : "")
+                                            }
+                                        },
+                                      exWeightRounds = "",
+                                      if (block["exWeightRounds"] != null)
                                         {
-                                          exWeightRounds =
-                                              (block["exWeightRounds"][i]
-                                                      is String
-                                                  ? block["exWeightRounds"][i]
-                                                  : "")
-                                        }
-                                    },
-                                  exResRepsRounds = "",
-                                  if (block["exResRepsRounds"] != null)
-                                    {
-                                      if (block["exResRepsRounds"].length > i)
+                                          if (block["exWeightRounds"].length >
+                                              i)
+                                            {
+                                              exWeightRounds =
+                                                  (block["exWeightRounds"][i]
+                                                          is String
+                                                      ? block["exWeightRounds"]
+                                                          [i]
+                                                      : "")
+                                            }
+                                        },
+                                      exResRepsRounds = "",
+                                      if (block["exResRepsRounds"] != null)
                                         {
-                                          exResRepsRounds =
-                                              (block["exResRepsRounds"][i]
-                                                      is String
-                                                  ? block["exResRepsRounds"][i]
-                                                  : "")
-                                        }
-                                    },
-                                  exResWeightRounds = "",
-                                  if (block["exResWeightRounds"] != null)
-                                    {
-                                      if (block["exResWeightRounds"].length > i)
+                                          if (block["exResRepsRounds"].length >
+                                              i)
+                                            {
+                                              exResRepsRounds =
+                                                  (block["exResRepsRounds"][i]
+                                                          is String
+                                                      ? block["exResRepsRounds"]
+                                                          [i]
+                                                      : "")
+                                            }
+                                        },
+                                      exResWeightRounds = "",
+                                      if (block["exResWeightRounds"] != null)
                                         {
-                                          exResWeightRounds =
-                                              (block["exResWeightRounds"][i]
-                                                      is String
+                                          if (block["exResWeightRounds"]
+                                                  .length >
+                                              i)
+                                            {
+                                              exResWeightRounds = (block[
+                                                          "exResWeightRounds"]
+                                                      [i] is String
                                                   ? block["exResWeightRounds"]
                                                       [i]
                                                   : "")
-                                        }
+                                            }
+                                        },
+                                      if (block["timeRes"] != null)
+                                        {
+                                          time = (block["timeRes"] is int
+                                              ? block["timeRes"]
+                                              : 0)
+                                        },
+                                      if (block["timeResGroup"] != null)
+                                        {timeGroup = block["timeResGroup"]},
+                                      if (block["exUnits"] != null)
+                                        {units = block["exUnits"]},
+                                      if (units.length > i) {unit = units[i]},
+                                      if (block["exNotes"] != null)
+                                        {notes = block["exNotes"]},
+                                      if (notes.length > i) {note = notes[i]},
+                                      ex.add(ModelMovement(
+                                        (block["exId"][i] is String
+                                            ? block["exId"][i]
+                                            : ""),
+                                        (block["exName"][i] is String
+                                            ? block["exName"][i]
+                                            : ""),
+                                        (block["exType"][i] is int
+                                            ? block["exType"][i]
+                                            : 0),
+                                        (block["exCat"][i] is int
+                                            ? block["exCat"][i]
+                                            : 0),
+                                        (block["exTool"][i] is int
+                                            ? block["exTool"][i]
+                                            : 0),
+                                        (block["exReps"][i] is int
+                                            ? block["exReps"][i]
+                                            : 0),
+                                        block["exWeight"][i].toDouble(),
+                                        (block["exWork"][i] is int
+                                            ? block["exWork"][i]
+                                            : 0),
+                                        (block["exRest"][i] is int
+                                            ? block["exRest"][i]
+                                            : 0),
+                                        block["exResWeight"][i].toDouble(),
+                                        (block["exResReps"][i] is int
+                                            ? block["exResReps"][i]
+                                            : 0),
+                                        "",
+                                        "",
+                                        (block["exImage"][i] is String
+                                            ? block["exImage"][i]
+                                            : ""),
+                                        wtype,
+                                        exRepsRounds,
+                                        exWeightRounds,
+                                        exResRepsRounds,
+                                        exResWeightRounds,
+                                        "",
+                                        "",
+                                        unit,
+                                        note,
+                                      )),
                                     },
-                                  if (block["timeRes"] != null)
+                                  if (block["logResults"] != null)
                                     {
-                                      time = (block["timeRes"] is int
-                                          ? block["timeRes"]
-                                          : 0)
+                                      logResults = (block["logResults"] is bool
+                                          ? block["logResults"]
+                                          : true)
                                     },
-                                  if (block["timeResGroup"] != null)
-                                    {timeGroup = block["timeResGroup"]},
-                                  if (block["exUnits"] != null)
-                                    {units = block["exUnits"]},
-                                  if (units.length > i) {unit = units[i]},
-                                  if (block["exNotes"] != null)
-                                    {notes = block["exNotes"]},
-                                  if (notes.length > i) {note = notes[i]},
-                                  ex.add(ModelMovement(
-                                    (block["exId"][i] is String
-                                        ? block["exId"][i]
+                                  if (block["simple"] != null)
+                                    {
+                                      simple = (block["simple"] is bool
+                                          ? block["simple"]
+                                          : false)
+                                    },
+                                  if (block["cycles"] != null)
+                                    {
+                                      cycles = (block["cycles"] is int
+                                          ? block["cycles"]
+                                          : 1)
+                                    },
+                                  if (block["name"] != null)
+                                    {
+                                      bname = (block["name"] is String
+                                          ? block["name"]
+                                          : "")
+                                    },
+                                  if (block["notesResSimple"] != null)
+                                    {
+                                      snotes =
+                                          (block["notesResSimple"] is String
+                                              ? block["notesResSimple"]
+                                              : "")
+                                    },
+                                  if (block["valueSimple"] != null)
+                                    {
+                                      valueSimple =
+                                          (block["valueSimple"] is List
+                                              ? block["valueSimple"]
+                                              : [])
+                                    },
+                                  if (block["amrapSimple"] != null)
+                                    {
+                                      amrapSimple =
+                                          (block["amrapSimple"] is List
+                                              ? block["amrapSimple"]
+                                              : [])
+                                    },
+                                  if (block["scaledSimple"] != null)
+                                    {
+                                      scaledSimple =
+                                          (block["scaledSimple"] is List
+                                              ? block["scaledSimple"]
+                                              : [])
+                                    },
+                                  if (block["unitSimple"] != null)
+                                    {
+                                      unitSimple =
+                                          (block["unitSimple"] is String
+                                              ? block["unitSimple"]
+                                              : "reps")
+                                    },
+                                  blocks.add(ModelBlock(
+                                    key,
+                                    (block["cat"] is int ? block["cat"] : 0),
+                                    bname,
+                                    (block["type"] is int ? block["type"] : 0),
+                                    (block["rounds"] is int
+                                        ? block["rounds"]
+                                        : 1),
+                                    (block["emom"] is bool
+                                        ? block["emom"]
+                                        : false),
+                                    (block["notes"] is String
+                                        ? block["notes"]
                                         : ""),
-                                    (block["exName"][i] is String
-                                        ? block["exName"][i]
+                                    (block["notesRes"] is String
+                                        ? block["notesRes"]
                                         : ""),
-                                    (block["exType"][i] is int
-                                        ? block["exType"][i]
-                                        : 0),
-                                    (block["exCat"][i] is int
-                                        ? block["exCat"][i]
-                                        : 0),
-                                    (block["exTool"][i] is int
-                                        ? block["exTool"][i]
-                                        : 0),
-                                    (block["exReps"][i] is int
-                                        ? block["exReps"][i]
-                                        : 0),
-                                    block["exWeight"][i].toDouble(),
-                                    (block["exWork"][i] is int
-                                        ? block["exWork"][i]
-                                        : 0),
-                                    (block["exRest"][i] is int
-                                        ? block["exRest"][i]
-                                        : 0),
-                                    block["exResWeight"][i].toDouble(),
-                                    (block["exResReps"][i] is int
-                                        ? block["exResReps"][i]
-                                        : 0),
-                                    "",
-                                    "",
-                                    (block["exImage"][i] is String
-                                        ? block["exImage"][i]
-                                        : ""),
-                                    wtype,
-                                    exRepsRounds,
-                                    exWeightRounds,
-                                    exResRepsRounds,
-                                    exResWeightRounds,
-                                    "",
-                                    "",
-                                    unit,
-                                    note,
-                                  )),
-                                },
-                              if (block["logResults"] != null)
-                                {
-                                  logResults = (block["logResults"] is bool
-                                      ? block["logResults"]
-                                      : true)
-                                },
-                              if (block["simple"] != null)
-                                {
-                                  simple = (block["simple"] is bool
-                                      ? block["simple"]
-                                      : false)
-                                },
-                              if (block["cycles"] != null)
-                                {
-                                  cycles = (block["cycles"] is int
-                                      ? block["cycles"]
-                                      : 1)
-                                },
-                              if (block["name"] != null)
-                                {
-                                  bname = (block["name"] is String
-                                      ? block["name"]
-                                      : "")
-                                },
-                              if (block["notesResSimple"] != null)
-                                {
-                                  snotes = (block["notesResSimple"] is String
-                                      ? block["notesResSimple"]
-                                      : "")
-                                },
-                              if (block["valueSimple"] != null)
-                                {
-                                  valueSimple = (block["valueSimple"] is List
-                                      ? block["valueSimple"]
-                                      : [])
-                                },
-                              if (block["amrapSimple"] != null)
-                                {
-                                  amrapSimple = (block["amrapSimple"] is List
-                                      ? block["amrapSimple"]
-                                      : [])
-                                },
-                              if (block["scaledSimple"] != null)
-                                {
-                                  scaledSimple = (block["scaledSimple"] is List
-                                      ? block["scaledSimple"]
-                                      : [])
-                                },
-                              if (block["unitSimple"] != null)
-                                {
-                                  unitSimple = (block["unitSimple"] is String
-                                      ? block["unitSimple"]
-                                      : "reps")
-                                },
-                              blocks.add(ModelBlock(
-                                key,
-                                (block["cat"] is int ? block["cat"] : 0),
-                                bname,
-                                (block["type"] is int ? block["type"] : 0),
-                                (block["rounds"] is int ? block["rounds"] : 1),
-                                (block["emom"] is bool ? block["emom"] : false),
-                                (block["notes"] is String
-                                    ? block["notes"]
-                                    : ""),
-                                (block["notesRes"] is String
-                                    ? block["notesRes"]
-                                    : ""),
-                                ex,
-                                logResults,
-                                cycles,
-                                time,
-                                timeGroup,
-                                simple,
-                                snotes,
-                                valueSimple,
-                                amrapSimple,
-                                scaledSimple,
-                                unitSimple,
-                              ))
-                            })),
+                                    ex,
+                                    logResults,
+                                    cycles,
+                                    time,
+                                    timeGroup,
+                                    simple,
+                                    snotes,
+                                    valueSimple,
+                                    amrapSimple,
+                                    scaledSimple,
+                                    unitSimple,
+                                  ))
+                                })),
                         blocks.sort((a, b) => a.id.compareTo(b.id)),
                         program = ModelProgram(
                             pkey,
@@ -1218,259 +1243,283 @@ class Connector {
                                     ? prog["benchmark"]
                                     : false)
                               },
-                            if (prog["blocks"][0] == null)
-                              prog["blocks"].forEach((key, block) => ({
-                                    ex = [],
-                                    cycles = 0,
-                                    bname = "",
-                                    logResults = true,
-                                    time = 0,
-                                    timeGroup = [],
-                                    units = [],
-                                    unit = "",
-                                    notes = [],
-                                    note = "",
-                                    simple = false,
-                                    snotes = "",
-                                    valueSimple = [],
-                                    amrapSimple = [],
-                                    scaledSimple = [],
-                                    unitSimple = "reps",
-                                    for (var i = 0;
-                                        i < block["exId"].length;
-                                        i++)
-                                      {
-                                        rw = "",
-                                        ww = "",
-                                        if (block["exResRepsGroup"] != null)
+                            if (prog["blocks"] != null)
+                              (prog["blocks"] is List
+                                      ? {
+                                          for (var i = 0;
+                                              i < prog["blocks"].length;
+                                              i++)
+                                            if (prog["blocks"][i] != null)
+                                              i.toString(): prog["blocks"][i]
+                                        }
+                                      : prog["blocks"])
+                                  .forEach((key, block) => ({
+                                        ex = [],
+                                        cycles = 0,
+                                        bname = "",
+                                        logResults = true,
+                                        time = 0,
+                                        timeGroup = [],
+                                        units = [],
+                                        unit = "",
+                                        notes = [],
+                                        note = "",
+                                        simple = false,
+                                        snotes = "",
+                                        valueSimple = [],
+                                        amrapSimple = [],
+                                        scaledSimple = [],
+                                        unitSimple = "reps",
+                                        for (var i = 0;
+                                            i < block["exId"].length;
+                                            i++)
                                           {
-                                            rw = block["exResRepsGroup"][i]
-                                                .toString()
-                                          },
-                                        if (block["exResWeightGroup"] != null)
-                                          {
-                                            ww = block["exResWeightGroup"][i]
-                                                .toString()
-                                          },
-                                        wtype = "per",
-                                        if (block["exWeightType"] != null)
-                                          {
-                                            wtype = (block["exWeightType"][i]
-                                                    is String
-                                                ? block["exWeightType"][i]
-                                                : "kg")
-                                          },
-                                        exRepsRounds = "",
-                                        if (block["exRepsRounds"] != null)
-                                          {
-                                            if (block["exRepsRounds"].length >
-                                                i)
+                                            rw = "",
+                                            ww = "",
+                                            if (block["exResRepsGroup"] != null)
                                               {
-                                                exRepsRounds =
-                                                    (block["exRepsRounds"][i]
-                                                            is String
+                                                rw = block["exResRepsGroup"][i]
+                                                    .toString()
+                                              },
+                                            if (block["exResWeightGroup"] !=
+                                                null)
+                                              {
+                                                ww = block["exResWeightGroup"]
+                                                        [i]
+                                                    .toString()
+                                              },
+                                            wtype = "per",
+                                            if (block["exWeightType"] != null)
+                                              {
+                                                wtype = (block["exWeightType"]
+                                                        [i] is String
+                                                    ? block["exWeightType"][i]
+                                                    : "kg")
+                                              },
+                                            exRepsRounds = "",
+                                            if (block["exRepsRounds"] != null)
+                                              {
+                                                if (block["exRepsRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exRepsRounds = (block[
+                                                                "exRepsRounds"]
+                                                            [i] is String
                                                         ? block["exRepsRounds"]
                                                             [i]
                                                         : "")
-                                              }
-                                          },
-                                        exWeightRounds = "",
-                                        if (block["exWeightRounds"] != null)
-                                          {
-                                            if (block["exWeightRounds"].length >
-                                                i)
+                                                  }
+                                              },
+                                            exWeightRounds = "",
+                                            if (block["exWeightRounds"] != null)
                                               {
-                                                exWeightRounds = (block[
+                                                if (block["exWeightRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exWeightRounds = (block[
+                                                                "exWeightRounds"]
+                                                            [i] is String
+                                                        ? block[
                                                             "exWeightRounds"][i]
-                                                        is String
-                                                    ? block["exWeightRounds"][i]
-                                                    : "")
-                                              }
-                                          },
-                                        exResRepsRounds = "",
-                                        if (block["exResRepsRounds"] != null)
-                                          {
-                                            if (block["exResRepsRounds"]
-                                                    .length >
-                                                i)
+                                                        : "")
+                                                  }
+                                              },
+                                            exResRepsRounds = "",
+                                            if (block["exResRepsRounds"] !=
+                                                null)
                                               {
-                                                exResRepsRounds = (block[
-                                                            "exResRepsRounds"]
-                                                        [i] is String
-                                                    ? block["exResRepsRounds"]
-                                                        [i]
-                                                    : "")
-                                              }
-                                          },
-                                        exResWeightRounds = "",
-                                        if (block["exResWeightRounds"] != null)
-                                          {
-                                            if (block["exResWeightRounds"]
-                                                    .length >
-                                                i)
+                                                if (block["exResRepsRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exResRepsRounds = (block[
+                                                                "exResRepsRounds"]
+                                                            [i] is String
+                                                        ? block[
+                                                            "exResRepsRounds"][i]
+                                                        : "")
+                                                  }
+                                              },
+                                            exResWeightRounds = "",
+                                            if (block["exResWeightRounds"] !=
+                                                null)
                                               {
-                                                exResWeightRounds = (block[
-                                                            "exResWeightRounds"]
-                                                        [i] is String
-                                                    ? block["exResWeightRounds"]
-                                                        [i]
-                                                    : "")
-                                              }
+                                                if (block["exResWeightRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exResWeightRounds = (block[
+                                                                "exResWeightRounds"]
+                                                            [i] is String
+                                                        ? block[
+                                                            "exResWeightRounds"][i]
+                                                        : "")
+                                                  }
+                                              },
+                                            if (block["timeRes"] != null)
+                                              {
+                                                time = (block["timeRes"] is int
+                                                    ? block["timeRes"]
+                                                    : 0)
+                                              },
+                                            if (block["timeResGroup"] != null)
+                                              {
+                                                timeGroup =
+                                                    block["timeResGroup"]
+                                              },
+                                            if (block["exUnits"] != null)
+                                              {units = block["exUnits"]},
+                                            if (units.length > i)
+                                              {unit = units[i]},
+                                            if (block["exNotes"] != null)
+                                              {notes = block["exNotes"]},
+                                            if (notes.length > i)
+                                              {note = notes[i]},
+                                            ex.add(ModelMovement(
+                                              (block["exId"][i] is String
+                                                  ? block["exId"][i]
+                                                  : ""),
+                                              (block["exName"][i] is String
+                                                  ? block["exName"][i]
+                                                  : ""),
+                                              (block["exType"][i] is int
+                                                  ? block["exType"][i]
+                                                  : 0),
+                                              (block["exCat"][i] is int
+                                                  ? block["exCat"][i]
+                                                  : 0),
+                                              (block["exTool"][i] is int
+                                                  ? block["exTool"][i]
+                                                  : 0),
+                                              (block["exReps"][i] is int
+                                                  ? block["exReps"][i]
+                                                  : 0),
+                                              block["exWeight"][i].toDouble(),
+                                              (block["exWork"][i] is int
+                                                  ? block["exWork"][i]
+                                                  : 0),
+                                              (block["exRest"][i] is int
+                                                  ? block["exRest"][i]
+                                                  : 0),
+                                              block["exResWeight"][i]
+                                                  .toDouble(),
+                                              (block["exResReps"][i] is int
+                                                  ? block["exResReps"][i]
+                                                  : 0),
+                                              //block["exResWeightGroup"][i],
+                                              //block["exResRepsGroup"][i],
+                                              ww,
+                                              rw,
+                                              (block["exImage"][i] is String
+                                                  ? block["exImage"][i]
+                                                  : ""),
+                                              wtype,
+                                              exRepsRounds,
+                                              exWeightRounds,
+                                              exResRepsRounds,
+                                              exResWeightRounds,
+                                              "",
+                                              "",
+                                              unit,
+                                              note,
+                                            )),
                                           },
-                                        if (block["timeRes"] != null)
+                                        if (block["logResults"] != null)
                                           {
-                                            time = (block["timeRes"] is int
-                                                ? block["timeRes"]
-                                                : 0)
+                                            logResults =
+                                                (block["logResults"] is bool
+                                                    ? block["logResults"]
+                                                    : true)
                                           },
-                                        if (block["timeResGroup"] != null)
-                                          {timeGroup = block["timeResGroup"]},
-                                        if (block["exUnits"] != null)
-                                          {units = block["exUnits"]},
-                                        if (units.length > i) {unit = units[i]},
-                                        if (block["exNotes"] != null)
-                                          {notes = block["exNotes"]},
-                                        if (notes.length > i) {note = notes[i]},
-                                        ex.add(ModelMovement(
-                                          (block["exId"][i] is String
-                                              ? block["exId"][i]
-                                              : ""),
-                                          (block["exName"][i] is String
-                                              ? block["exName"][i]
-                                              : ""),
-                                          (block["exType"][i] is int
-                                              ? block["exType"][i]
-                                              : 0),
-                                          (block["exCat"][i] is int
-                                              ? block["exCat"][i]
-                                              : 0),
-                                          (block["exTool"][i] is int
-                                              ? block["exTool"][i]
-                                              : 0),
-                                          (block["exReps"][i] is int
-                                              ? block["exReps"][i]
-                                              : 0),
-                                          block["exWeight"][i].toDouble(),
-                                          (block["exWork"][i] is int
-                                              ? block["exWork"][i]
-                                              : 0),
-                                          (block["exRest"][i] is int
-                                              ? block["exRest"][i]
-                                              : 0),
-                                          block["exResWeight"][i].toDouble(),
-                                          (block["exResReps"][i] is int
-                                              ? block["exResReps"][i]
-                                              : 0),
-                                          //block["exResWeightGroup"][i],
-                                          //block["exResRepsGroup"][i],
-                                          ww,
-                                          rw,
-                                          (block["exImage"][i] is String
-                                              ? block["exImage"][i]
-                                              : ""),
-                                          wtype,
-                                          exRepsRounds,
-                                          exWeightRounds,
-                                          exResRepsRounds,
-                                          exResWeightRounds,
-                                          "",
-                                          "",
-                                          unit,
-                                          note,
-                                        )),
-                                      },
-                                    if (block["logResults"] != null)
-                                      {
-                                        logResults =
-                                            (block["logResults"] is bool
-                                                ? block["logResults"]
-                                                : true)
-                                      },
-                                    if (block["simple"] != null)
-                                      {
-                                        simple = (block["simple"] is bool
-                                            ? block["simple"]
-                                            : false)
-                                      },
-                                    if (block["cycles"] != null)
-                                      {
-                                        cycles = (block["cycles"] is int
-                                            ? block["cycles"]
-                                            : 1)
-                                      },
-                                    if (block["name"] != null)
-                                      {
-                                        bname = (block["name"] is String
-                                            ? block["name"]
-                                            : "")
-                                      },
-                                    if (block["notesResSimple"] != null)
-                                      {
-                                        snotes =
-                                            (block["notesResSimple"] is String
+                                        if (block["simple"] != null)
+                                          {
+                                            simple = (block["simple"] is bool
+                                                ? block["simple"]
+                                                : false)
+                                          },
+                                        if (block["cycles"] != null)
+                                          {
+                                            cycles = (block["cycles"] is int
+                                                ? block["cycles"]
+                                                : 1)
+                                          },
+                                        if (block["name"] != null)
+                                          {
+                                            bname = (block["name"] is String
+                                                ? block["name"]
+                                                : "")
+                                          },
+                                        if (block["notesResSimple"] != null)
+                                          {
+                                            snotes = (block["notesResSimple"]
+                                                    is String
                                                 ? block["notesResSimple"]
                                                 : "")
-                                      },
-                                    if (block["valueSimple"] != null)
-                                      {
-                                        valueSimple =
-                                            (block["valueSimple"] is List
-                                                ? block["valueSimple"]
-                                                : [])
-                                      },
-                                    if (block["amrapSimple"] != null)
-                                      {
-                                        amrapSimple =
-                                            (block["amrapSimple"] is List
-                                                ? block["amrapSimple"]
-                                                : [])
-                                      },
-                                    if (block["scaledSimple"] != null)
-                                      {
-                                        scaledSimple =
-                                            (block["scaledSimple"] is List
-                                                ? block["scaledSimple"]
-                                                : [])
-                                      },
-                                    if (block["unitSimple"] != null)
-                                      {
-                                        unitSimple =
-                                            (block["unitSimple"] is String
-                                                ? block["unitSimple"]
-                                                : "reps")
-                                      },
-                                    blocks.add(ModelBlock(
-                                      key,
-                                      (block["cat"] is int ? block["cat"] : 0),
-                                      bname,
-                                      (block["type"] is int
-                                          ? block["type"]
-                                          : 0),
-                                      (block["rounds"] is int
-                                          ? block["rounds"]
-                                          : 1),
-                                      (block["emom"] is bool
-                                          ? block["emom"]
-                                          : false),
-                                      (block["notes"] is String
-                                          ? block["notes"]
-                                          : ""),
-                                      (block["notesRes"] is String
-                                          ? block["notesRes"]
-                                          : ""),
-                                      ex,
-                                      logResults,
-                                      cycles,
-                                      time,
-                                      timeGroup,
-                                      simple,
-                                      snotes,
-                                      valueSimple,
-                                      amrapSimple,
-                                      scaledSimple,
-                                      unitSimple,
-                                    ))
-                                  })),
+                                          },
+                                        if (block["valueSimple"] != null)
+                                          {
+                                            valueSimple =
+                                                (block["valueSimple"] is List
+                                                    ? block["valueSimple"]
+                                                    : [])
+                                          },
+                                        if (block["amrapSimple"] != null)
+                                          {
+                                            amrapSimple =
+                                                (block["amrapSimple"] is List
+                                                    ? block["amrapSimple"]
+                                                    : [])
+                                          },
+                                        if (block["scaledSimple"] != null)
+                                          {
+                                            scaledSimple =
+                                                (block["scaledSimple"] is List
+                                                    ? block["scaledSimple"]
+                                                    : [])
+                                          },
+                                        if (block["unitSimple"] != null)
+                                          {
+                                            unitSimple =
+                                                (block["unitSimple"] is String
+                                                    ? block["unitSimple"]
+                                                    : "reps")
+                                          },
+                                        blocks.add(ModelBlock(
+                                          key,
+                                          (block["cat"] is int
+                                              ? block["cat"]
+                                              : 0),
+                                          bname,
+                                          (block["type"] is int
+                                              ? block["type"]
+                                              : 0),
+                                          (block["rounds"] is int
+                                              ? block["rounds"]
+                                              : 1),
+                                          (block["emom"] is bool
+                                              ? block["emom"]
+                                              : false),
+                                          (block["notes"] is String
+                                              ? block["notes"]
+                                              : ""),
+                                          (block["notesRes"] is String
+                                              ? block["notesRes"]
+                                              : ""),
+                                          ex,
+                                          logResults,
+                                          cycles,
+                                          time,
+                                          timeGroup,
+                                          simple,
+                                          snotes,
+                                          valueSimple,
+                                          amrapSimple,
+                                          scaledSimple,
+                                          unitSimple,
+                                        ))
+                                      })),
                             blocks.sort((a, b) => a.id.compareTo(b.id)),
                             program = ModelProgram(
                                 pkey,
@@ -1727,259 +1776,283 @@ class Connector {
                                     ? prog["benchmark"]
                                     : false)
                               },
-                            if (prog["blocks"][0] == null)
-                              prog["blocks"].forEach((key, block) => ({
-                                    ex = [],
-                                    cycles = 0,
-                                    bname = "",
-                                    logResults = true,
-                                    time = 0,
-                                    timeGroup = [],
-                                    units = [],
-                                    unit = "",
-                                    notes = [],
-                                    note = "",
-                                    simple = false,
-                                    snotes = "",
-                                    valueSimple = [],
-                                    amrapSimple = [],
-                                    scaledSimple = [],
-                                    unitSimple = "reps",
-                                    for (var i = 0;
-                                        i < block["exId"].length;
-                                        i++)
-                                      {
-                                        rw = "",
-                                        ww = "",
-                                        if (block["exResRepsGroup"] != null)
+                            if (prog["blocks"] != null)
+                              (prog["blocks"] is List
+                                      ? {
+                                          for (var i = 0;
+                                              i < prog["blocks"].length;
+                                              i++)
+                                            if (prog["blocks"][i] != null)
+                                              i.toString(): prog["blocks"][i]
+                                        }
+                                      : prog["blocks"])
+                                  .forEach((key, block) => ({
+                                        ex = [],
+                                        cycles = 0,
+                                        bname = "",
+                                        logResults = true,
+                                        time = 0,
+                                        timeGroup = [],
+                                        units = [],
+                                        unit = "",
+                                        notes = [],
+                                        note = "",
+                                        simple = false,
+                                        snotes = "",
+                                        valueSimple = [],
+                                        amrapSimple = [],
+                                        scaledSimple = [],
+                                        unitSimple = "reps",
+                                        for (var i = 0;
+                                            i < block["exId"].length;
+                                            i++)
                                           {
-                                            rw = block["exResRepsGroup"][i]
-                                                .toString()
-                                          },
-                                        if (block["exResWeightGroup"] != null)
-                                          {
-                                            ww = block["exResWeightGroup"][i]
-                                                .toString()
-                                          },
-                                        wtype = "per",
-                                        if (block["exWeightType"] != null)
-                                          {
-                                            wtype = (block["exWeightType"][i]
-                                                    is String
-                                                ? block["exWeightType"][i]
-                                                : "kg")
-                                          },
-                                        exRepsRounds = "",
-                                        if (block["exRepsRounds"] != null)
-                                          {
-                                            if (block["exRepsRounds"].length >
-                                                i)
+                                            rw = "",
+                                            ww = "",
+                                            if (block["exResRepsGroup"] != null)
                                               {
-                                                exRepsRounds =
-                                                    (block["exRepsRounds"][i]
-                                                            is String
+                                                rw = block["exResRepsGroup"][i]
+                                                    .toString()
+                                              },
+                                            if (block["exResWeightGroup"] !=
+                                                null)
+                                              {
+                                                ww = block["exResWeightGroup"]
+                                                        [i]
+                                                    .toString()
+                                              },
+                                            wtype = "per",
+                                            if (block["exWeightType"] != null)
+                                              {
+                                                wtype = (block["exWeightType"]
+                                                        [i] is String
+                                                    ? block["exWeightType"][i]
+                                                    : "kg")
+                                              },
+                                            exRepsRounds = "",
+                                            if (block["exRepsRounds"] != null)
+                                              {
+                                                if (block["exRepsRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exRepsRounds = (block[
+                                                                "exRepsRounds"]
+                                                            [i] is String
                                                         ? block["exRepsRounds"]
                                                             [i]
                                                         : "")
-                                              }
-                                          },
-                                        exWeightRounds = "",
-                                        if (block["exWeightRounds"] != null)
-                                          {
-                                            if (block["exWeightRounds"].length >
-                                                i)
+                                                  }
+                                              },
+                                            exWeightRounds = "",
+                                            if (block["exWeightRounds"] != null)
                                               {
-                                                exWeightRounds = (block[
+                                                if (block["exWeightRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exWeightRounds = (block[
+                                                                "exWeightRounds"]
+                                                            [i] is String
+                                                        ? block[
                                                             "exWeightRounds"][i]
-                                                        is String
-                                                    ? block["exWeightRounds"][i]
-                                                    : "")
-                                              }
-                                          },
-                                        exResRepsRounds = "",
-                                        if (block["exResRepsRounds"] != null)
-                                          {
-                                            if (block["exResRepsRounds"]
-                                                    .length >
-                                                i)
+                                                        : "")
+                                                  }
+                                              },
+                                            exResRepsRounds = "",
+                                            if (block["exResRepsRounds"] !=
+                                                null)
                                               {
-                                                exResRepsRounds = (block[
-                                                            "exResRepsRounds"]
-                                                        [i] is String
-                                                    ? block["exResRepsRounds"]
-                                                        [i]
-                                                    : "")
-                                              }
-                                          },
-                                        exResWeightRounds = "",
-                                        if (block["exResWeightRounds"] != null)
-                                          {
-                                            if (block["exResWeightRounds"]
-                                                    .length >
-                                                i)
+                                                if (block["exResRepsRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exResRepsRounds = (block[
+                                                                "exResRepsRounds"]
+                                                            [i] is String
+                                                        ? block[
+                                                            "exResRepsRounds"][i]
+                                                        : "")
+                                                  }
+                                              },
+                                            exResWeightRounds = "",
+                                            if (block["exResWeightRounds"] !=
+                                                null)
                                               {
-                                                exResWeightRounds = (block[
-                                                            "exResWeightRounds"]
-                                                        [i] is String
-                                                    ? block["exResWeightRounds"]
-                                                        [i]
-                                                    : "")
-                                              }
+                                                if (block["exResWeightRounds"]
+                                                        .length >
+                                                    i)
+                                                  {
+                                                    exResWeightRounds = (block[
+                                                                "exResWeightRounds"]
+                                                            [i] is String
+                                                        ? block[
+                                                            "exResWeightRounds"][i]
+                                                        : "")
+                                                  }
+                                              },
+                                            if (block["timeRes"] != null)
+                                              {
+                                                time = (block["timeRes"] is int
+                                                    ? block["timeRes"]
+                                                    : 0)
+                                              },
+                                            if (block["timeResGroup"] != null)
+                                              {
+                                                timeGroup =
+                                                    block["timeResGroup"]
+                                              },
+                                            if (block["exUnits"] != null)
+                                              {units = block["exUnits"]},
+                                            if (units.length > i)
+                                              {unit = units[i]},
+                                            if (block["exNotes"] != null)
+                                              {notes = block["exNotes"]},
+                                            if (notes.length > i)
+                                              {note = notes[i]},
+                                            ex.add(ModelMovement(
+                                              (block["exId"][i] is String
+                                                  ? block["exId"][i]
+                                                  : ""),
+                                              (block["exName"][i] is String
+                                                  ? block["exName"][i]
+                                                  : ""),
+                                              (block["exType"][i] is int
+                                                  ? block["exType"][i]
+                                                  : 0),
+                                              (block["exCat"][i] is int
+                                                  ? block["exCat"][i]
+                                                  : 0),
+                                              (block["exTool"][i] is int
+                                                  ? block["exTool"][i]
+                                                  : 0),
+                                              (block["exReps"][i] is int
+                                                  ? block["exReps"][i]
+                                                  : 0),
+                                              block["exWeight"][i].toDouble(),
+                                              (block["exWork"][i] is int
+                                                  ? block["exWork"][i]
+                                                  : 0),
+                                              (block["exRest"][i] is int
+                                                  ? block["exRest"][i]
+                                                  : 0),
+                                              block["exResWeight"][i]
+                                                  .toDouble(),
+                                              (block["exResReps"][i] is int
+                                                  ? block["exResReps"][i]
+                                                  : 0),
+                                              //block["exResWeightGroup"][i],
+                                              //block["exResRepsGroup"][i],
+                                              ww,
+                                              rw,
+                                              (block["exImage"][i] is String
+                                                  ? block["exImage"][i]
+                                                  : ""),
+                                              wtype,
+                                              exRepsRounds,
+                                              exWeightRounds,
+                                              exResRepsRounds,
+                                              exResWeightRounds,
+                                              "",
+                                              "",
+                                              unit,
+                                              note,
+                                            )),
                                           },
-                                        if (block["timeRes"] != null)
+                                        if (block["logResults"] != null)
                                           {
-                                            time = (block["timeRes"] is int
-                                                ? block["timeRes"]
-                                                : 0)
+                                            logResults =
+                                                (block["logResults"] is bool
+                                                    ? block["logResults"]
+                                                    : true)
                                           },
-                                        if (block["timeResGroup"] != null)
-                                          {timeGroup = block["timeResGroup"]},
-                                        if (block["exUnits"] != null)
-                                          {units = block["exUnits"]},
-                                        if (units.length > i) {unit = units[i]},
-                                        if (block["exNotes"] != null)
-                                          {notes = block["exNotes"]},
-                                        if (notes.length > i) {note = notes[i]},
-                                        ex.add(ModelMovement(
-                                          (block["exId"][i] is String
-                                              ? block["exId"][i]
-                                              : ""),
-                                          (block["exName"][i] is String
-                                              ? block["exName"][i]
-                                              : ""),
-                                          (block["exType"][i] is int
-                                              ? block["exType"][i]
-                                              : 0),
-                                          (block["exCat"][i] is int
-                                              ? block["exCat"][i]
-                                              : 0),
-                                          (block["exTool"][i] is int
-                                              ? block["exTool"][i]
-                                              : 0),
-                                          (block["exReps"][i] is int
-                                              ? block["exReps"][i]
-                                              : 0),
-                                          block["exWeight"][i].toDouble(),
-                                          (block["exWork"][i] is int
-                                              ? block["exWork"][i]
-                                              : 0),
-                                          (block["exRest"][i] is int
-                                              ? block["exRest"][i]
-                                              : 0),
-                                          block["exResWeight"][i].toDouble(),
-                                          (block["exResReps"][i] is int
-                                              ? block["exResReps"][i]
-                                              : 0),
-                                          //block["exResWeightGroup"][i],
-                                          //block["exResRepsGroup"][i],
-                                          ww,
-                                          rw,
-                                          (block["exImage"][i] is String
-                                              ? block["exImage"][i]
-                                              : ""),
-                                          wtype,
-                                          exRepsRounds,
-                                          exWeightRounds,
-                                          exResRepsRounds,
-                                          exResWeightRounds,
-                                          "",
-                                          "",
-                                          unit,
-                                          note,
-                                        )),
-                                      },
-                                    if (block["logResults"] != null)
-                                      {
-                                        logResults =
-                                            (block["logResults"] is bool
-                                                ? block["logResults"]
-                                                : true)
-                                      },
-                                    if (block["simple"] != null)
-                                      {
-                                        simple = (block["simple"] is bool
-                                            ? block["simple"]
-                                            : false)
-                                      },
-                                    if (block["cycles"] != null)
-                                      {
-                                        cycles = (block["cycles"] is int
-                                            ? block["cycles"]
-                                            : 1)
-                                      },
-                                    if (block["name"] != null)
-                                      {
-                                        bname = (block["name"] is String
-                                            ? block["name"]
-                                            : "")
-                                      },
-                                    if (block["notesResSimple"] != null)
-                                      {
-                                        snotes =
-                                            (block["notesResSimple"] is String
+                                        if (block["simple"] != null)
+                                          {
+                                            simple = (block["simple"] is bool
+                                                ? block["simple"]
+                                                : false)
+                                          },
+                                        if (block["cycles"] != null)
+                                          {
+                                            cycles = (block["cycles"] is int
+                                                ? block["cycles"]
+                                                : 1)
+                                          },
+                                        if (block["name"] != null)
+                                          {
+                                            bname = (block["name"] is String
+                                                ? block["name"]
+                                                : "")
+                                          },
+                                        if (block["notesResSimple"] != null)
+                                          {
+                                            snotes = (block["notesResSimple"]
+                                                    is String
                                                 ? block["notesResSimple"]
                                                 : "")
-                                      },
-                                    if (block["valueSimple"] != null)
-                                      {
-                                        valueSimple =
-                                            (block["valueSimple"] is List
-                                                ? block["valueSimple"]
-                                                : [])
-                                      },
-                                    if (block["amrapSimple"] != null)
-                                      {
-                                        amrapSimple =
-                                            (block["amrapSimple"] is List
-                                                ? block["amrapSimple"]
-                                                : [])
-                                      },
-                                    if (block["scaledSimple"] != null)
-                                      {
-                                        scaledSimple =
-                                            (block["scaledSimple"] is List
-                                                ? block["scaledSimple"]
-                                                : [])
-                                      },
-                                    if (block["unitSimple"] != null)
-                                      {
-                                        unitSimple =
-                                            (block["unitSimple"] is String
-                                                ? block["unitSimple"]
-                                                : "reps")
-                                      },
-                                    blocks.add(ModelBlock(
-                                      key,
-                                      (block["cat"] is int ? block["cat"] : 0),
-                                      bname,
-                                      (block["type"] is int
-                                          ? block["type"]
-                                          : 0),
-                                      (block["rounds"] is int
-                                          ? block["rounds"]
-                                          : 1),
-                                      (block["emom"] is bool
-                                          ? block["emom"]
-                                          : false),
-                                      (block["notes"] is String
-                                          ? block["notes"]
-                                          : ""),
-                                      (block["notesRes"] is String
-                                          ? block["notesRes"]
-                                          : ""),
-                                      ex,
-                                      logResults,
-                                      cycles,
-                                      time,
-                                      timeGroup,
-                                      simple,
-                                      snotes,
-                                      valueSimple,
-                                      amrapSimple,
-                                      scaledSimple,
-                                      unitSimple,
-                                    ))
-                                  })),
+                                          },
+                                        if (block["valueSimple"] != null)
+                                          {
+                                            valueSimple =
+                                                (block["valueSimple"] is List
+                                                    ? block["valueSimple"]
+                                                    : [])
+                                          },
+                                        if (block["amrapSimple"] != null)
+                                          {
+                                            amrapSimple =
+                                                (block["amrapSimple"] is List
+                                                    ? block["amrapSimple"]
+                                                    : [])
+                                          },
+                                        if (block["scaledSimple"] != null)
+                                          {
+                                            scaledSimple =
+                                                (block["scaledSimple"] is List
+                                                    ? block["scaledSimple"]
+                                                    : [])
+                                          },
+                                        if (block["unitSimple"] != null)
+                                          {
+                                            unitSimple =
+                                                (block["unitSimple"] is String
+                                                    ? block["unitSimple"]
+                                                    : "reps")
+                                          },
+                                        blocks.add(ModelBlock(
+                                          key,
+                                          (block["cat"] is int
+                                              ? block["cat"]
+                                              : 0),
+                                          bname,
+                                          (block["type"] is int
+                                              ? block["type"]
+                                              : 0),
+                                          (block["rounds"] is int
+                                              ? block["rounds"]
+                                              : 1),
+                                          (block["emom"] is bool
+                                              ? block["emom"]
+                                              : false),
+                                          (block["notes"] is String
+                                              ? block["notes"]
+                                              : ""),
+                                          (block["notesRes"] is String
+                                              ? block["notesRes"]
+                                              : ""),
+                                          ex,
+                                          logResults,
+                                          cycles,
+                                          time,
+                                          timeGroup,
+                                          simple,
+                                          snotes,
+                                          valueSimple,
+                                          amrapSimple,
+                                          scaledSimple,
+                                          unitSimple,
+                                        ))
+                                      })),
                             blocks.sort((a, b) => a.id.compareTo(b.id)),
                             program = ModelProgram(
                                 pkey,
@@ -2204,230 +2277,246 @@ class Connector {
                   bench =
                       (data["benchmark"] is bool ? data["benchmark"] : false)
                 },
-              data["blocks"].forEach((key, block) => ({
-                    ex = [],
-                    cycles = 0,
-                    bname = "",
-                    units = [],
-                    unit = "",
-                    notes = [],
-                    note = "",
-                    simple = false,
-                    snotes = "",
-                    valueSimple = [],
-                    amrapSimple = [],
-                    scaledSimple = [],
-                    unitSimple = "reps",
-                    if (block is List<dynamic>)
-                      {load = false}
-                    else
-                      {load = true},
-                    logResults = true,
-                    if (load)
-                      {
-                        for (var i = 0; i < block["exId"].length; i++)
+              (data["blocks"] is List
+                      ? {
+                          for (var i = 0; i < data["blocks"].length; i++)
+                            if (data["blocks"][i] != null)
+                              i.toString(): data["blocks"][i]
+                        }
+                      : data["blocks"])
+                  .forEach((key, block) => ({
+                        ex = [],
+                        cycles = 0,
+                        bname = "",
+                        units = [],
+                        unit = "",
+                        notes = [],
+                        note = "",
+                        simple = false,
+                        snotes = "",
+                        valueSimple = [],
+                        amrapSimple = [],
+                        scaledSimple = [],
+                        unitSimple = "reps",
+                        if (block is List<dynamic>)
+                          {load = false}
+                        else
+                          {load = true},
+                        logResults = true,
+                        if (load)
                           {
-                            wtype = "per",
-                            if (block["exWeightType"] != null)
+                            for (var i = 0; i < block["exId"].length; i++)
                               {
-                                wtype = (block["exWeightType"][i] is String
-                                    ? block["exWeightType"][i]
-                                    : "kg")
-                              },
-                            exRepsRounds = "",
-                            if (block["exRepsRounds"] != null)
-                              {
-                                if (block["exRepsRounds"].length > i)
+                                wtype = "per",
+                                if (block["exWeightType"] != null)
                                   {
-                                    exRepsRounds =
-                                        (block["exRepsRounds"][i] is String
-                                            ? block["exRepsRounds"][i]
-                                            : "")
-                                  }
-                              },
-                            exWeightRounds = "",
-                            if (block["exWeightRounds"] != null)
-                              {
-                                if (block["exWeightRounds"].length > i)
+                                    wtype = (block["exWeightType"][i] is String
+                                        ? block["exWeightType"][i]
+                                        : "kg")
+                                  },
+                                exRepsRounds = "",
+                                if (block["exRepsRounds"] != null)
                                   {
-                                    exWeightRounds =
-                                        (block["exWeightRounds"][i] is String
-                                            ? block["exWeightRounds"][i]
-                                            : "")
-                                  }
-                              },
-                            exResRepsRounds = "",
-                            if (block["exResRepsRounds"] != null)
-                              {
-                                if (block["exResRepsRounds"].length > i)
+                                    if (block["exRepsRounds"].length > i)
+                                      {
+                                        exRepsRounds =
+                                            (block["exRepsRounds"][i] is String
+                                                ? block["exRepsRounds"][i]
+                                                : "")
+                                      }
+                                  },
+                                exWeightRounds = "",
+                                if (block["exWeightRounds"] != null)
                                   {
-                                    exResRepsRounds =
-                                        (block["exResRepsRounds"][i] is String
-                                            ? block["exResRepsRounds"][i]
-                                            : "")
-                                  }
-                              },
-                            exResWeightRounds = "",
-                            if (block["exResWeightRounds"] != null)
-                              {
-                                if (block["exResWeightRounds"].length > i)
+                                    if (block["exWeightRounds"].length > i)
+                                      {
+                                        exWeightRounds =
+                                            (block["exWeightRounds"][i]
+                                                    is String
+                                                ? block["exWeightRounds"][i]
+                                                : "")
+                                      }
+                                  },
+                                exResRepsRounds = "",
+                                if (block["exResRepsRounds"] != null)
                                   {
-                                    exResWeightRounds =
-                                        (block["exResWeightRounds"][i] is String
-                                            ? block["exResWeightRounds"][i]
-                                            : "")
-                                  }
-                              },
-                            exResRepsGroup = "",
-                            if (block["exResRepsGroup"] != null)
-                              {
-                                if (block["exResRepsGroup"].length > i)
+                                    if (block["exResRepsRounds"].length > i)
+                                      {
+                                        exResRepsRounds =
+                                            (block["exResRepsRounds"][i]
+                                                    is String
+                                                ? block["exResRepsRounds"][i]
+                                                : "")
+                                      }
+                                  },
+                                exResWeightRounds = "",
+                                if (block["exResWeightRounds"] != null)
                                   {
-                                    exResRepsGroup =
-                                        (block["exResRepsGroup"][i] is String
-                                            ? block["exResRepsGroup"][i]
-                                            : "")
-                                  }
-                              },
-                            exResWeightGroup = "",
-                            if (block["exResWeightGroup"] != null)
-                              {
-                                if (block["exResWeightGroup"].length > i)
+                                    if (block["exResWeightRounds"].length > i)
+                                      {
+                                        exResWeightRounds =
+                                            (block["exResWeightRounds"][i]
+                                                    is String
+                                                ? block["exResWeightRounds"][i]
+                                                : "")
+                                      }
+                                  },
+                                exResRepsGroup = "",
+                                if (block["exResRepsGroup"] != null)
                                   {
-                                    exResRepsGroup =
-                                        (block["exResWeightGroup"][i] is String
-                                            ? block["exResWeightGroup"][i]
-                                            : "")
-                                  }
+                                    if (block["exResRepsGroup"].length > i)
+                                      {
+                                        exResRepsGroup =
+                                            (block["exResRepsGroup"][i]
+                                                    is String
+                                                ? block["exResRepsGroup"][i]
+                                                : "")
+                                      }
+                                  },
+                                exResWeightGroup = "",
+                                if (block["exResWeightGroup"] != null)
+                                  {
+                                    if (block["exResWeightGroup"].length > i)
+                                      {
+                                        exResRepsGroup =
+                                            (block["exResWeightGroup"][i]
+                                                    is String
+                                                ? block["exResWeightGroup"][i]
+                                                : "")
+                                      }
+                                  },
+                                if (block["exUnits"] != null)
+                                  {units = block["exUnits"]},
+                                if (units.length > i) {unit = units[i]},
+                                if (block["exNotes"] != null)
+                                  {notes = block["exNotes"]},
+                                if (notes.length > i) {note = notes[i]},
+                                ex.add(ModelMovement(
+                                  (block["exId"][i] is String
+                                      ? block["exId"][i]
+                                      : ""),
+                                  (block["exName"][i] is String
+                                      ? block["exName"][i]
+                                      : ""),
+                                  (block["exType"][i] is int
+                                      ? block["exType"][i]
+                                      : 0),
+                                  (block["exCat"][i] is int
+                                      ? block["exCat"][i]
+                                      : 0),
+                                  (block["exTool"][i] is int
+                                      ? block["exTool"][i]
+                                      : 0),
+                                  (block["exReps"][i] is int
+                                      ? block["exReps"][i]
+                                      : 0),
+                                  block["exWeight"][i].toDouble(),
+                                  (block["exWork"][i] is int
+                                      ? block["exWork"][i]
+                                      : 0),
+                                  (block["exRest"][i] is int
+                                      ? block["exRest"][i]
+                                      : 0),
+                                  block["exResWeight"][i].toDouble(),
+                                  (block["exResReps"][i] is int
+                                      ? block["exResReps"][i]
+                                      : 0),
+                                  exResWeightGroup,
+                                  exResRepsGroup,
+                                  (block["exImage"][i] is String
+                                      ? block["exImage"][i]
+                                      : ""),
+                                  wtype,
+                                  exRepsRounds,
+                                  exWeightRounds,
+                                  exResRepsRounds,
+                                  exResWeightRounds,
+                                  "",
+                                  "",
+                                  unit,
+                                  note,
+                                )),
                               },
-                            if (block["exUnits"] != null)
-                              {units = block["exUnits"]},
-                            if (units.length > i) {unit = units[i]},
-                            if (block["exNotes"] != null)
-                              {notes = block["exNotes"]},
-                            if (notes.length > i) {note = notes[i]},
-                            ex.add(ModelMovement(
-                              (block["exId"][i] is String
-                                  ? block["exId"][i]
-                                  : ""),
-                              (block["exName"][i] is String
-                                  ? block["exName"][i]
-                                  : ""),
-                              (block["exType"][i] is int
-                                  ? block["exType"][i]
-                                  : 0),
-                              (block["exCat"][i] is int
-                                  ? block["exCat"][i]
-                                  : 0),
-                              (block["exTool"][i] is int
-                                  ? block["exTool"][i]
-                                  : 0),
-                              (block["exReps"][i] is int
-                                  ? block["exReps"][i]
-                                  : 0),
-                              block["exWeight"][i].toDouble(),
-                              (block["exWork"][i] is int
-                                  ? block["exWork"][i]
-                                  : 0),
-                              (block["exRest"][i] is int
-                                  ? block["exRest"][i]
-                                  : 0),
-                              block["exResWeight"][i].toDouble(),
-                              (block["exResReps"][i] is int
-                                  ? block["exResReps"][i]
-                                  : 0),
-                              exResWeightGroup,
-                              exResRepsGroup,
-                              (block["exImage"][i] is String
-                                  ? block["exImage"][i]
-                                  : ""),
-                              wtype,
-                              exRepsRounds,
-                              exWeightRounds,
-                              exResRepsRounds,
-                              exResWeightRounds,
-                              "",
-                              "",
-                              unit,
-                              note,
-                            )),
+                            if (block["logResults"] != null)
+                              {
+                                logResults = (block["logResults"] is bool
+                                    ? block["logResults"]
+                                    : true)
+                              },
+                            if (block["simple"] != null)
+                              {
+                                simple = (block["simple"] is bool
+                                    ? block["simple"]
+                                    : false)
+                              },
+                            if (block["cycles"] != null)
+                              {
+                                cycles = (block["cycles"] is int
+                                    ? block["cycles"]
+                                    : 1)
+                              },
+                            if (block["name"] != null)
+                              {
+                                bname = (block["name"] is String
+                                    ? block["name"]
+                                    : "")
+                              },
+                            if (block["notesResSimple"] != null)
+                              {
+                                snotes = (block["notesResSimple"] is String
+                                    ? block["notesResSimple"]
+                                    : "")
+                              },
+                            if (block["valueSimple"] != null)
+                              {
+                                valueSimple = (block["valueSimple"] is List
+                                    ? block["valueSimple"]
+                                    : [])
+                              },
+                            if (block["amrapSimple"] != null)
+                              {
+                                amrapSimple = (block["amrapSimple"] is List
+                                    ? block["amrapSimple"]
+                                    : [])
+                              },
+                            if (block["scaledSimple"] != null)
+                              {
+                                scaledSimple = (block["scaledSimple"] is List
+                                    ? block["scaledSimple"]
+                                    : [])
+                              },
+                            if (block["unitSimple"] != null)
+                              {
+                                unitSimple = (block["unitSimple"] is String
+                                    ? block["unitSimple"]
+                                    : "reps")
+                              },
+                            blocks.add(ModelBlock(
+                                key,
+                                (block["cat"] is int ? block["cat"] : 0),
+                                bname,
+                                (block["type"] is int ? block["type"] : 0),
+                                (block["rounds"] is int ? block["rounds"] : 1),
+                                (block["emom"] is bool ? block["emom"] : false),
+                                (block["notes"] is String
+                                    ? block["notes"]
+                                    : ""),
+                                (block["notesRes"] is String
+                                    ? block["notesRes"]
+                                    : ""),
+                                ex,
+                                logResults,
+                                cycles,
+                                0,
+                                [],
+                                simple,
+                                snotes,
+                                valueSimple,
+                                amrapSimple,
+                                scaledSimple,
+                                unitSimple))
                           },
-                        if (block["logResults"] != null)
-                          {
-                            logResults = (block["logResults"] is bool
-                                ? block["logResults"]
-                                : true)
-                          },
-                        if (block["simple"] != null)
-                          {
-                            simple = (block["simple"] is bool
-                                ? block["simple"]
-                                : false)
-                          },
-                        if (block["cycles"] != null)
-                          {
-                            cycles =
-                                (block["cycles"] is int ? block["cycles"] : 1)
-                          },
-                        if (block["name"] != null)
-                          {
-                            bname =
-                                (block["name"] is String ? block["name"] : "")
-                          },
-                        if (block["notesResSimple"] != null)
-                          {
-                            snotes = (block["notesResSimple"] is String
-                                ? block["notesResSimple"]
-                                : "")
-                          },
-                        if (block["valueSimple"] != null)
-                          {
-                            valueSimple = (block["valueSimple"] is List
-                                ? block["valueSimple"]
-                                : [])
-                          },
-                        if (block["amrapSimple"] != null)
-                          {
-                            amrapSimple = (block["amrapSimple"] is List
-                                ? block["amrapSimple"]
-                                : [])
-                          },
-                        if (block["scaledSimple"] != null)
-                          {
-                            scaledSimple = (block["scaledSimple"] is List
-                                ? block["scaledSimple"]
-                                : [])
-                          },
-                        if (block["unitSimple"] != null)
-                          {
-                            unitSimple = (block["unitSimple"] is String
-                                ? block["unitSimple"]
-                                : "reps")
-                          },
-                        blocks.add(ModelBlock(
-                            key,
-                            (block["cat"] is int ? block["cat"] : 0),
-                            bname,
-                            (block["type"] is int ? block["type"] : 0),
-                            (block["rounds"] is int ? block["rounds"] : 1),
-                            (block["emom"] is bool ? block["emom"] : false),
-                            (block["notes"] is String ? block["notes"] : ""),
-                            (block["notesRes"] is String
-                                ? block["notesRes"]
-                                : ""),
-                            ex,
-                            logResults,
-                            cycles,
-                            0,
-                            [],
-                            simple,
-                            snotes,
-                            valueSimple,
-                            amrapSimple,
-                            scaledSimple,
-                            unitSimple))
-                      },
-                  })),
+                      })),
               blocks.sort((a, b) => a.id.compareTo(b.id)),
               for (var item in GlobalData.programs)
                 {
@@ -2740,259 +2829,285 @@ class Connector {
                                 : false)
                           },
                         blocks = [],
-                        prog["blocks"].forEach((bkey, block) => ({
-                              badd = true,
-                              for (var item in blocks)
-                                {
-                                  if (item.id == block) {badd = false},
-                                },
-                              ex = [],
-                              logResults = true,
-                              cycles = 0,
-                              bname = "",
-                              time = 0,
-                              timeGroup = [],
-                              units = [],
-                              unit = "",
-                              notes = [],
-                              note = "",
-                              simple = false,
-                              snotes = "",
-                              valueSimple = [],
-                              amrapSimple = [],
-                              scaledSimple = [],
-                              unitSimple = "reps",
-                              for (var i = 0; i < block["exId"].length; i++)
-                                {
-                                  wtype = "per",
-                                  units = [],
-                                  if (block["exWeightType"] != null)
+                        (prog["blocks"] is List
+                                ? {
+                                    for (var i = 0;
+                                        i < prog["blocks"].length;
+                                        i++)
+                                      if (prog["blocks"][i] != null)
+                                        i.toString(): prog["blocks"][i]
+                                  }
+                                : prog["blocks"])
+                            .forEach((bkey, block) => ({
+                                  badd = true,
+                                  for (var item in blocks)
                                     {
-                                      wtype =
-                                          (block["exWeightType"][i] is String
+                                      if (item.id == block) {badd = false},
+                                    },
+                                  ex = [],
+                                  logResults = true,
+                                  cycles = 0,
+                                  bname = "",
+                                  time = 0,
+                                  timeGroup = [],
+                                  units = [],
+                                  unit = "",
+                                  notes = [],
+                                  note = "",
+                                  simple = false,
+                                  snotes = "",
+                                  valueSimple = [],
+                                  amrapSimple = [],
+                                  scaledSimple = [],
+                                  unitSimple = "reps",
+                                  for (var i = 0; i < block["exId"].length; i++)
+                                    {
+                                      wtype = "per",
+                                      units = [],
+                                      if (block["exWeightType"] != null)
+                                        {
+                                          wtype = (block["exWeightType"][i]
+                                                  is String
                                               ? block["exWeightType"][i]
                                               : "kg")
-                                    },
-                                  exRepsRounds = "",
-                                  if (block["exRepsRounds"] != null)
-                                    {
-                                      if (block["exRepsRounds"].length > i)
+                                        },
+                                      exRepsRounds = "",
+                                      if (block["exRepsRounds"] != null)
                                         {
-                                          exRepsRounds = (block["exRepsRounds"]
-                                                  [i] is String
-                                              ? block["exRepsRounds"][i]
-                                              : "")
-                                        }
-                                    },
-                                  exWeightRounds = "",
-                                  if (block["exWeightRounds"] != null)
-                                    {
-                                      if (block["exWeightRounds"].length > i)
+                                          if (block["exRepsRounds"].length > i)
+                                            {
+                                              exRepsRounds =
+                                                  (block["exRepsRounds"][i]
+                                                          is String
+                                                      ? block["exRepsRounds"][i]
+                                                      : "")
+                                            }
+                                        },
+                                      exWeightRounds = "",
+                                      if (block["exWeightRounds"] != null)
                                         {
-                                          exWeightRounds =
-                                              (block["exWeightRounds"][i]
-                                                      is String
-                                                  ? block["exWeightRounds"][i]
-                                                  : "")
-                                        }
-                                    },
-                                  exResRepsRounds = "",
-                                  if (block["exResRepsRounds"] != null)
-                                    {
-                                      if (block["exResRepsRounds"].length > i)
+                                          if (block["exWeightRounds"].length >
+                                              i)
+                                            {
+                                              exWeightRounds =
+                                                  (block["exWeightRounds"][i]
+                                                          is String
+                                                      ? block["exWeightRounds"]
+                                                          [i]
+                                                      : "")
+                                            }
+                                        },
+                                      exResRepsRounds = "",
+                                      if (block["exResRepsRounds"] != null)
                                         {
-                                          exResRepsRounds =
-                                              (block["exResRepsRounds"][i]
-                                                      is String
-                                                  ? block["exResRepsRounds"][i]
-                                                  : "")
-                                        }
-                                    },
-                                  exResWeightRounds = "",
-                                  if (block["exResWeightRounds"] != null)
-                                    {
-                                      if (block["exResWeightRounds"].length > i)
+                                          if (block["exResRepsRounds"].length >
+                                              i)
+                                            {
+                                              exResRepsRounds =
+                                                  (block["exResRepsRounds"][i]
+                                                          is String
+                                                      ? block["exResRepsRounds"]
+                                                          [i]
+                                                      : "")
+                                            }
+                                        },
+                                      exResWeightRounds = "",
+                                      if (block["exResWeightRounds"] != null)
                                         {
-                                          exResWeightRounds =
-                                              (block["exResWeightRounds"][i]
-                                                      is String
+                                          if (block["exResWeightRounds"]
+                                                  .length >
+                                              i)
+                                            {
+                                              exResWeightRounds = (block[
+                                                          "exResWeightRounds"]
+                                                      [i] is String
                                                   ? block["exResWeightRounds"]
                                                       [i]
                                                   : "")
-                                        }
-                                    },
-                                  exResRepsGroup = "",
-                                  if (block["exResRepsGroup"] != null)
-                                    {
-                                      if (block["exResRepsGroup"].length > i)
+                                            }
+                                        },
+                                      exResRepsGroup = "",
+                                      if (block["exResRepsGroup"] != null)
                                         {
-                                          exResRepsGroup =
-                                              (block["exResRepsGroup"][i]
-                                                      is String
-                                                  ? block["exResRepsGroup"][i]
-                                                  : "")
-                                        }
-                                    },
-                                  exResWeightGroup = "",
-                                  if (block["exResWeightGroup"] != null)
-                                    {
-                                      if (block["exResWeightGroup"].length > i)
+                                          if (block["exResRepsGroup"].length >
+                                              i)
+                                            {
+                                              exResRepsGroup =
+                                                  (block["exResRepsGroup"][i]
+                                                          is String
+                                                      ? block["exResRepsGroup"]
+                                                          [i]
+                                                      : "")
+                                            }
+                                        },
+                                      exResWeightGroup = "",
+                                      if (block["exResWeightGroup"] != null)
                                         {
-                                          exResRepsGroup =
-                                              (block["exResWeightGroup"][i]
+                                          if (block["exResWeightGroup"].length >
+                                              i)
+                                            {
+                                              exResRepsGroup = (block[
+                                                          "exResWeightGroup"][i]
                                                       is String
                                                   ? block["exResWeightGroup"][i]
                                                   : "")
-                                        }
+                                            }
+                                        },
+                                      if (block["timeRes"] != null)
+                                        {
+                                          time = (block["timeRes"] is int
+                                              ? block["timeRes"]
+                                              : 0)
+                                        },
+                                      if (block["timeResGroup"] != null)
+                                        {timeGroup = block["timeResGroup"]},
+                                      if (block["exUnits"] != null)
+                                        {units = block["exUnits"]},
+                                      if (units.length > i) {unit = units[i]},
+                                      if (block["exNotes"] != null)
+                                        {notes = block["exNotes"]},
+                                      if (notes.length > i) {note = notes[i]},
+                                      ex.add(ModelMovement(
+                                        (block["exId"][i] is String
+                                            ? block["exId"][i]
+                                            : ""),
+                                        (block["exName"][i] is String
+                                            ? block["exName"][i]
+                                            : ""),
+                                        (block["exType"][i] is int
+                                            ? block["exType"][i]
+                                            : 0),
+                                        (block["exCat"][i] is int
+                                            ? block["exCat"][i]
+                                            : 0),
+                                        (block["exTool"][i] is int
+                                            ? block["exTool"][i]
+                                            : 0),
+                                        (block["exReps"][i] is int
+                                            ? block["exReps"][i]
+                                            : 0),
+                                        block["exWeight"][i].toDouble(),
+                                        (block["exWork"][i] is int
+                                            ? block["exWork"][i]
+                                            : 0),
+                                        (block["exRest"][i] is int
+                                            ? block["exRest"][i]
+                                            : 0),
+                                        block["exResWeight"][i].toDouble(),
+                                        (block["exResReps"][i] is int
+                                            ? block["exResReps"][i]
+                                            : 0),
+                                        exResWeightGroup,
+                                        exResRepsGroup,
+                                        (block["exImage"][i] is String
+                                            ? block["exImage"][i]
+                                            : ""),
+                                        wtype,
+                                        exRepsRounds,
+                                        exWeightRounds,
+                                        exResRepsRounds,
+                                        exResWeightRounds,
+                                        "",
+                                        "",
+                                        unit,
+                                        note,
+                                      )),
                                     },
-                                  if (block["timeRes"] != null)
+                                  if (block["logResults"] != null)
                                     {
-                                      time = (block["timeRes"] is int
-                                          ? block["timeRes"]
-                                          : 0)
+                                      logResults = (block["logResults"] is bool
+                                          ? block["logResults"]
+                                          : true)
                                     },
-                                  if (block["timeResGroup"] != null)
-                                    {timeGroup = block["timeResGroup"]},
-                                  if (block["exUnits"] != null)
-                                    {units = block["exUnits"]},
-                                  if (units.length > i) {unit = units[i]},
-                                  if (block["exNotes"] != null)
-                                    {notes = block["exNotes"]},
-                                  if (notes.length > i) {note = notes[i]},
-                                  ex.add(ModelMovement(
-                                    (block["exId"][i] is String
-                                        ? block["exId"][i]
-                                        : ""),
-                                    (block["exName"][i] is String
-                                        ? block["exName"][i]
-                                        : ""),
-                                    (block["exType"][i] is int
-                                        ? block["exType"][i]
-                                        : 0),
-                                    (block["exCat"][i] is int
-                                        ? block["exCat"][i]
-                                        : 0),
-                                    (block["exTool"][i] is int
-                                        ? block["exTool"][i]
-                                        : 0),
-                                    (block["exReps"][i] is int
-                                        ? block["exReps"][i]
-                                        : 0),
-                                    block["exWeight"][i].toDouble(),
-                                    (block["exWork"][i] is int
-                                        ? block["exWork"][i]
-                                        : 0),
-                                    (block["exRest"][i] is int
-                                        ? block["exRest"][i]
-                                        : 0),
-                                    block["exResWeight"][i].toDouble(),
-                                    (block["exResReps"][i] is int
-                                        ? block["exResReps"][i]
-                                        : 0),
-                                    exResWeightGroup,
-                                    exResRepsGroup,
-                                    (block["exImage"][i] is String
-                                        ? block["exImage"][i]
-                                        : ""),
-                                    wtype,
-                                    exRepsRounds,
-                                    exWeightRounds,
-                                    exResRepsRounds,
-                                    exResWeightRounds,
-                                    "",
-                                    "",
-                                    unit,
-                                    note,
-                                  )),
-                                },
-                              if (block["logResults"] != null)
-                                {
-                                  logResults = (block["logResults"] is bool
-                                      ? block["logResults"]
-                                      : true)
-                                },
-                              if (block["simple"] != null)
-                                {
-                                  simple = (block["simple"] is bool
-                                      ? block["simple"]
-                                      : false)
-                                },
-                              if (block["cycles"] != null)
-                                {
-                                  cycles = (block["cycles"] is int
-                                      ? block["cycles"]
-                                      : 1)
-                                },
-                              if (block["name"] != null)
-                                {
-                                  bname = (block["name"] is String
-                                      ? block["name"]
-                                      : "")
-                                },
-                              if (block["notesResSimple"] != null)
-                                {
-                                  snotes = (block["notesResSimple"] is String
-                                      ? block["notesResSimple"]
-                                      : "")
-                                },
-                              if (block["valueSimple"] != null)
-                                {
-                                  valueSimple = (block["valueSimple"] is List
-                                      ? block["valueSimple"]
-                                      : [])
-                                },
-                              if (block["amrapSimple"] != null)
-                                {
-                                  amrapSimple = (block["amrapSimple"] is List
-                                      ? block["amrapSimple"]
-                                      : [])
-                                },
-                              if (block["scaledSimple"] != null)
-                                {
-                                  scaledSimple = (block["scaledSimple"] is List
-                                      ? block["scaledSimple"]
-                                      : [])
-                                },
-                              if (block["unitSimple"] != null)
-                                {
-                                  unitSimple = (block["unitSimple"] is String
-                                      ? block["unitSimple"]
-                                      : "reps")
-                                },
-                              if (badd)
-                                {
-                                  blocks.add(ModelBlock(
-                                      bkey,
-                                      (block["cat"] is int ? block["cat"] : 0),
-                                      bname,
-                                      (block["type"] is int
-                                          ? block["type"]
-                                          : 0),
-                                      (block["rounds"] is int
-                                          ? block["rounds"]
-                                          : 1),
-                                      (block["emom"] is bool
-                                          ? block["emom"]
-                                          : false),
-                                      (block["notes"] is String
-                                          ? block["notes"]
-                                          : ""),
-                                      (block["notesRes"] is String
-                                          ? block["notesRes"]
-                                          : ""),
-                                      ex,
-                                      logResults,
-                                      cycles,
-                                      time,
-                                      timeGroup,
-                                      simple,
-                                      snotes,
-                                      valueSimple,
-                                      amrapSimple,
-                                      scaledSimple,
-                                      unitSimple))
-                                },
-                            })),
+                                  if (block["simple"] != null)
+                                    {
+                                      simple = (block["simple"] is bool
+                                          ? block["simple"]
+                                          : false)
+                                    },
+                                  if (block["cycles"] != null)
+                                    {
+                                      cycles = (block["cycles"] is int
+                                          ? block["cycles"]
+                                          : 1)
+                                    },
+                                  if (block["name"] != null)
+                                    {
+                                      bname = (block["name"] is String
+                                          ? block["name"]
+                                          : "")
+                                    },
+                                  if (block["notesResSimple"] != null)
+                                    {
+                                      snotes =
+                                          (block["notesResSimple"] is String
+                                              ? block["notesResSimple"]
+                                              : "")
+                                    },
+                                  if (block["valueSimple"] != null)
+                                    {
+                                      valueSimple =
+                                          (block["valueSimple"] is List
+                                              ? block["valueSimple"]
+                                              : [])
+                                    },
+                                  if (block["amrapSimple"] != null)
+                                    {
+                                      amrapSimple =
+                                          (block["amrapSimple"] is List
+                                              ? block["amrapSimple"]
+                                              : [])
+                                    },
+                                  if (block["scaledSimple"] != null)
+                                    {
+                                      scaledSimple =
+                                          (block["scaledSimple"] is List
+                                              ? block["scaledSimple"]
+                                              : [])
+                                    },
+                                  if (block["unitSimple"] != null)
+                                    {
+                                      unitSimple =
+                                          (block["unitSimple"] is String
+                                              ? block["unitSimple"]
+                                              : "reps")
+                                    },
+                                  if (badd)
+                                    {
+                                      blocks.add(ModelBlock(
+                                          bkey,
+                                          (block["cat"] is int
+                                              ? block["cat"]
+                                              : 0),
+                                          bname,
+                                          (block["type"] is int
+                                              ? block["type"]
+                                              : 0),
+                                          (block["rounds"] is int
+                                              ? block["rounds"]
+                                              : 1),
+                                          (block["emom"] is bool
+                                              ? block["emom"]
+                                              : false),
+                                          (block["notes"] is String
+                                              ? block["notes"]
+                                              : ""),
+                                          (block["notesRes"] is String
+                                              ? block["notesRes"]
+                                              : ""),
+                                          ex,
+                                          logResults,
+                                          cycles,
+                                          time,
+                                          timeGroup,
+                                          simple,
+                                          snotes,
+                                          valueSimple,
+                                          amrapSimple,
+                                          scaledSimple,
+                                          unitSimple))
+                                    },
+                                })),
                         blocks.sort((a, b) => a.id.compareTo(b.id)),
                         programs.add(ModelProgram(
                             pkey,

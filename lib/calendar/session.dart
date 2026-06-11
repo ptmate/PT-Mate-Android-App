@@ -669,10 +669,16 @@ class _SessionPageState extends State<SessionPage> {
             bookings.add(cl);
           }
           var cname = GlobalUser.name;
+          var cemail = GlobalUser.email;
           if (client != GlobalData.space.client) {
             for (var cl in GlobalData.space.linked) {
               if (cl.id == client) {
                 cname = cl.name;
+              }
+            }
+            for (var conn in GlobalData.connect) {
+              if (conn.client == client && conn.email != "") {
+                cemail = conn.email;
               }
             }
           }
@@ -693,7 +699,7 @@ class _SessionPageState extends State<SessionPage> {
               "session",
               id,
               []);
-          sendEmailConfirmation("booked");
+          sendEmailConfirmation("booked", cemail, cname);
 
           // Local Notifications
           HelperCal.addScheduledNotification(item, GlobalData.schedule);
@@ -763,10 +769,16 @@ class _SessionPageState extends State<SessionPage> {
           }
         }
         var cname = GlobalUser.name;
+        var cemail = GlobalUser.email;
         if (client != GlobalData.space.client) {
           for (var cl in GlobalData.space.linked) {
             if (cl.id == client) {
               cname = cl.name;
+            }
+          }
+          for (var conn in GlobalData.connect) {
+            if (conn.client == client && conn.email != "") {
+              cemail = conn.email;
             }
           }
         }
@@ -783,7 +795,7 @@ class _SessionPageState extends State<SessionPage> {
             "session",
             id,
             []);
-        sendEmailConfirmation("canceled");
+        sendEmailConfirmation("canceled", cemail, cname);
 
         var wclient = "";
         if (waiting.length > 0) {
@@ -991,7 +1003,7 @@ class _SessionPageState extends State<SessionPage> {
     );
   }
 
-  sendEmailConfirmation(type) {
+  sendEmailConfirmation(type, email, clientName) {
     if (GlobalData.space.emailReminder &&
         GlobalData.space.clientEmailReminder) {
       HttpsCallable callable =
@@ -1000,7 +1012,8 @@ class _SessionPageState extends State<SessionPage> {
         <String, dynamic>{
           "type": type,
           "name": GlobalData.space.business,
-          "email": GlobalUser.email,
+          "email": email,
+          "clientName": clientName,
           "session": item.name,
           "time": GlobalUI.dateTime.format(item.date),
           "id": GlobalData.space.id,
