@@ -69,8 +69,16 @@ class _RunningPageState extends State<RunningPage> {
 
 
   updateBlock() {
-    if(this.mounted) {
-      if(item.program.blocks[current].logResults) {
+    if(!this.mounted) return;
+    if (item.program == null || item.program.blocks == null || item.program.blocks.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("No program blocks to update."),
+        backgroundColor: AppColors.PrimaryColor,
+        duration: Duration(seconds: 2),
+      ));
+      return;
+    }
+    if(item.program.blocks[current].logResults) {
         var tmp = current;
         Future.delayed(const Duration(milliseconds: 700), () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => EditResultsPage(id, item, item.program.blocks[tmp])));
@@ -99,7 +107,6 @@ class _RunningPageState extends State<RunningPage> {
         }
       }
     }
-  }
 
 
   abortSession() {
@@ -134,6 +141,14 @@ class _RunningPageState extends State<RunningPage> {
 
 
   startBlock() {
+    if (item.program == null || item.program.blocks == null || item.program.blocks.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("No program blocks to start."),
+        backgroundColor: AppColors.PrimaryColor,
+        duration: Duration(seconds: 2),
+      ));
+      return;
+    }
     var block = item.program.blocks[current];
     var ints = [];
     var rounds = 0;
@@ -313,6 +328,9 @@ class _RunningPageState extends State<RunningPage> {
 
 
   _getContent() {
+    if (item.program == null || item.program.blocks == null || item.program.blocks.isEmpty) {
+      return <Widget>[];
+    }
     List<Widget> items = [];
     for(var i=0; i<item.program.blocks.length; i++) {
       var block = item.program.blocks[i];

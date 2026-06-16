@@ -863,7 +863,7 @@ class _HomePageState extends State<HomePage> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: Container(
-                    foregroundDecoration: item.url != "" ? BoxDecoration(
+                    foregroundDecoration: (item.url != "" && item.url.startsWith("http")) ? BoxDecoration(
                       image: DecorationImage(
                           image: NetworkImage(item.url), fit: BoxFit.cover),
                     ) : null,

@@ -117,16 +117,24 @@ class _PlanPageState extends State<PlanPage> {
   }
 
   gotoSession(id) {
-    var sess = null;
+    ModelSession? sess;
     for (var tr in GlobalData.training) {
       if (tr.program.id == id) {
         sess = tr;
       }
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ResultsPage(sess.id, sess)),
-    );
+    if (sess != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ResultsPage(sess!.id, sess!)),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Training session not found"),
+        backgroundColor: AppColors.PrimaryColor,
+        duration: Duration(seconds: 2),
+      ));
+    }
   }
 
   startPlan() {
@@ -368,12 +376,21 @@ class _PlanPageState extends State<PlanPage> {
             if (current == "done") {
               items.add(InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProgramPage(
-                              prog, getProgram(prog), item.id, true)),
-                    );
+                    var progItem = getProgram(prog);
+                    if (progItem != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProgramPage(
+                                prog, progItem, item.id, true)),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Program not found"),
+                        backgroundColor: AppColors.PrimaryColor,
+                        duration: Duration(seconds: 2),
+                      ));
+                    }
                   },
                   child: CardDouble(
                       "Day " + (i + 1).toString(),
@@ -384,12 +401,21 @@ class _PlanPageState extends State<PlanPage> {
             } else {
               items.add(InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProgramPage(
-                              prog, getProgram(prog), item.id, false)),
-                    );
+                    var progItem = getProgram(prog);
+                    if (progItem != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProgramPage(
+                                prog, progItem, item.id, false)),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text("Program not found"),
+                        backgroundColor: AppColors.PrimaryColor,
+                        duration: Duration(seconds: 2),
+                      ));
+                    }
                   },
                   child: CardDouble(
                       "Day " + (i + 1).toString(),
@@ -488,12 +514,21 @@ class _PlanPageState extends State<PlanPage> {
         for (var prog in arr) {
           items.add(InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ProgramPage(prog, getProgram(prog), item.id, false)),
-                );
+                var progItem = getProgram(prog);
+                if (progItem != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProgramPage(prog, progItem, item.id, false)),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text("Program not found"),
+                    backgroundColor: AppColors.PrimaryColor,
+                    duration: Duration(seconds: 2),
+                  ));
+                }
               },
               child: CardDouble(
                   "Day " + (i + 1).toString(),

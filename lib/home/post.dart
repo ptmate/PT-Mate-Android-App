@@ -266,7 +266,7 @@ class _PostPageState extends State<PostPage> {
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container (
-          foregroundDecoration: vimg != "" ? BoxDecoration(
+          foregroundDecoration: (vimg != "" && vimg.startsWith("http")) ? BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(vimg),
               fit: BoxFit.contain),

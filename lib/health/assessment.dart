@@ -335,12 +335,12 @@ class _AssessmentPageState extends State<AssessmentPage> {
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container (
-          foregroundDecoration: BoxDecoration(
+          foregroundDecoration: (iimg != "" && iimg.startsWith("http")) ? BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(iimg),
               fit: BoxFit.contain),
               //fit: BoxFit.fill),
-          ),
+          ) : null,
         )
       );
     } else {

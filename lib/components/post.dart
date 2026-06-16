@@ -242,7 +242,7 @@ class _PostItemState extends State<PostItem> {
           child: ClipRRect(
           borderRadius: BorderRadius.circular(5),
             child: Container (
-              foregroundDecoration: img != "" ? BoxDecoration(
+              foregroundDecoration: (img != "" && img.startsWith("http")) ? BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(img),
                   fit: BoxFit.cover),

@@ -194,10 +194,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
       } else {
         tlist.add(ModelLeaderboard(
             GlobalData.space.client,
-            getResult(GlobalData.space.client, item.id, num)[0],
-            getResult(GlobalData.space.client, item.id, num)[1],
-            getResult(GlobalData.space.client, item.id, num)[2],
-            getResult(GlobalData.space.client, item.id, num)[3],
+            getResult(GlobalData.space.client, item.id, 0)[0],
+            getResult(GlobalData.space.client, item.id, 0)[1],
+            getResult(GlobalData.space.client, item.id, 0)[2],
+            getResult(GlobalData.space.client, item.id, 0)[3],
             0,
             item.id,
             getHighfives(GlobalData.space.client, item.highfives),
@@ -229,15 +229,15 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
               } else {
                 tlist.add(ModelLeaderboard(
                     GlobalData.space.client,
-                    getResult(GlobalData.space.client, item.id, num)[0],
-                    getResult(GlobalData.space.client, item.id, num)[1],
-                    getResult(GlobalData.space.client, item.id, num)[2],
-                    getResult(GlobalData.space.client, item.id, num)[3],
+                    getResult(GlobalData.space.client, sess.id, 0)[0],
+                    getResult(GlobalData.space.client, sess.id, 0)[1],
+                    getResult(GlobalData.space.client, sess.id, 0)[2],
+                    getResult(GlobalData.space.client, sess.id, 0)[3],
                     0,
-                    item.id,
-                    getHighfives(GlobalData.space.client, item.highfives),
-                    item.date,
-                    item.type));
+                    sess.id,
+                    getHighfives(GlobalData.space.client, sess.highfives),
+                    sess.date,
+                    sess.type));
               }
             }
           }

@@ -426,12 +426,12 @@ class _UpdatePageState extends State<UpdatePage> {
       return ClipRRect(
         borderRadius: BorderRadius.circular(55),
         child: Container (
-          foregroundDecoration: BoxDecoration(
+          foregroundDecoration: (img != "" && img.startsWith("http")) ? BoxDecoration(
             image: DecorationImage(
               image: NetworkImage(img),
               fit: BoxFit.cover),
               //fit: BoxFit.fill),
-          ),
+          ) : null,
         )
       );
     } else if(!newImage && GlobalUser.image == "") {
