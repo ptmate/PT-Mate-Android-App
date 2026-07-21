@@ -83,7 +83,7 @@ class _ReactionsPageState extends State<ReactionsPage> {
 
 
   getName(id) {
-    var label = "Member";
+    var label = "";
     for(var client in GlobalData.clients) {
       if(client.id == id) {
         label = client.name;

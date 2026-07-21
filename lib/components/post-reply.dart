@@ -56,7 +56,7 @@ class _ReplyItemState extends State<ReplyItem> {
   }
 
   getName() {
-    var label = "Member";
+    var label = "";
     if (item.author == GlobalData.space.id) {
       label = GlobalData.space.name;
     }

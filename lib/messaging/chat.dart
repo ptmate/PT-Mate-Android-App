@@ -188,7 +188,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   String getClient(id) {
-    var label = "Client";
+    var label = "";
     for (var item in GlobalData.clients) {
       if (item.id == id) {
         label = item.name;

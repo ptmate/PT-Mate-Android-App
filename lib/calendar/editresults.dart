@@ -932,7 +932,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
     } else if (item.type == "training") {
       return "Training";
     } else {
-      var label = "Client";
+      var label = "";
       for (var client in GlobalData.clients) {
         if (client.id == item.clients[current]) {
           label = client.name;

@@ -101,7 +101,7 @@ class _PostItemState extends State<PostItem> {
 
 
   getName() {
-    var label = "Member";
+    var label = "";
     if(item.author == GlobalData.space.id) {
       label = GlobalData.space.name;
     }

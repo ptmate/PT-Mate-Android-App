@@ -683,7 +683,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   }
 
   String getClient(id) {
-    var label = "Member";
+    var label = "";
     for (var item in GlobalData.clients) {
       if (item.id == id) {
         label = item.name;
@@ -696,7 +696,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
   }
 
   String getClientImage(id) {
-    var label = "Client";
+    var label = "";
     for (var item in GlobalData.clients) {
       if (item.id == id) {
         label = item.image;

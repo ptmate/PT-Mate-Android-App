@@ -167,7 +167,7 @@ class _ResultsPageState extends State<ResultsPage> {
   }
 
   String getClient(id) {
-    var label = "Member";
+    var label = "";
     for (var item in GlobalData.clients) {
       if (item.id == id) {
         label = item.name;
@@ -188,7 +188,7 @@ class _ResultsPageState extends State<ResultsPage> {
   }
 
   String getClientImage(id) {
-    var label = "Member";
+    var label = "";
     for (var item in GlobalData.clients) {
       if (item.id == id) {
         label = item.image;

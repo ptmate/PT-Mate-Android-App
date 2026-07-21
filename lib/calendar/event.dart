@@ -75,7 +75,7 @@ class _EventPageState extends State<EventPage> {
 
   
   String getClient(id) {
-    var label = "Client";
+    var label = "";
     for(var item in GlobalData.clients) {
       if(item.id == id) {
         label = item.name;
@@ -97,7 +97,7 @@ class _EventPageState extends State<EventPage> {
 
 
   String getClientImage(id) {
-    var label = "Client";
+    var label = "";
     for(var item in GlobalData.clients) {
       if(item.id == id) {
         label = item.image;

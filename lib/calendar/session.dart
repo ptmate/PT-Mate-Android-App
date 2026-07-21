@@ -135,7 +135,7 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   String getClient(id) {
-    var label = "Client";
+    var label = "";
     for (var item in GlobalData.clients) {
       if (item.id == id) {
         label = item.name;
@@ -156,7 +156,7 @@ class _SessionPageState extends State<SessionPage> {
   }
 
   String getClientImage(id) {
-    var label = "Member";
+    var label = "";
     for (var item in GlobalData.clients) {
       if (item.id == id) {
         label = item.image;
@@ -255,7 +255,31 @@ class _SessionPageState extends State<SessionPage> {
         },
       );
     } else {
-      updateBooking("add", client);
+      AlertDialog alert = AlertDialog(
+        title: Text("Book in"),
+        content: Text("Are you sure you want to book into this class?"),
+        actions: [
+          TextButton(
+            child: Text("Yes, book in"),
+            onPressed: () {
+              updateBooking("add", client);
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
     }
   }
 
@@ -1052,6 +1076,12 @@ class _SessionPageState extends State<SessionPage> {
         // Push notification here
       }
       FirebaseSender.waitSession(item.id, clients, "sessions");
+      // Update local state
+      for (var sess in GlobalData.sessions) {
+        if (sess.id == item.id) {
+          sess.waiting = clients;
+        }
+      }
       if (type != "first") {
         // Show message
         if (mounted) {
@@ -1236,6 +1266,41 @@ class _SessionPageState extends State<SessionPage> {
     }
     //List items = List();
     List<Widget> items = [];
+
+    bool userBooked = item.clients.contains(GlobalData.space.client);
+    bool userWaiting = item.waiting.contains(GlobalData.space.client);
+    bool showEveryone = (item.type == "group" && GlobalData.space.showBooked);
+
+    if (showEveryone) {
+      items.add(SubtitleLabel("Booked in"));
+      if (item.clients.length == 0) {
+        items.add(EmptyLabel(
+            "", item.availability ? "No booking yet" : "No bookings yet"));
+      } else {
+        for (var client in item.clients) {
+          items.add(ListPerson(getClient(client), "",
+              getClientImage(client), "", getClientAvatar(client)));
+        }
+      }
+      if (item.waiting.length > 0) {
+        items.add(SubtitleLabel("Waiting list"));
+        for (var client in item.waiting) {
+          items.add(ListPerson(getClient(client), "On the waiting list",
+              getClientImage(client), "", getClientAvatar(client)));
+        }
+      }
+    } else {
+      if (userBooked) {
+        items.add(SubtitleLabel("Booked in"));
+        items.add(ListPerson(getClient(GlobalData.space.client), "",
+            getClientImage(GlobalData.space.client), "", getClientAvatar(GlobalData.space.client)));
+      } else if (userWaiting) {
+        items.add(SubtitleLabel("Waiting list"));
+        items.add(ListPerson(getClient(GlobalData.space.client), "On the waiting list",
+            getClientImage(GlobalData.space.client), "", getClientAvatar(GlobalData.space.client)));
+      }
+    }
+
     if (item.desc != "" ||
         (item.trainer != GlobalData.space.name && item.trainer != "Trainer")) {
       var text = item.desc;
@@ -1316,25 +1381,7 @@ class _SessionPageState extends State<SessionPage> {
         }
       }
     }
-    if (item.type == "group" && GlobalData.space.showBooked) {
-      items.add(SubtitleLabel("Booked in"));
-      if (item.clients.length == 0) {
-        items.add(EmptyLabel(
-            "", item.availability ? "No booking yet" : "No bookings yet"));
-      } else {
-        for (var client in item.clients) {
-          items.add(ListPerson(getClient(client), "Booked in",
-              getClientImage(client), "", getClientAvatar(item)));
-        }
-      }
-      if (item.waiting.length > 0) {
-        items.add(SubtitleLabel("Waiting list"));
-        for (var client in item.waiting) {
-          items.add(ListPerson(getClient(client), "On the waiting list",
-              getClientImage(client), "", getClientAvatar(item)));
-        }
-      }
-    }
+
 
     if (GlobalData.space.comments) {
       var highfives = [];

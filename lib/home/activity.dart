@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ptmate_client/_helper/calendar.dart';
 import 'package:ptmate_client/components/empty-message.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:ptmate_client/_data/variables.dart';
 import 'package:ptmate_client/_data/models.dart';
 
@@ -14,6 +13,7 @@ import 'package:ptmate_client/tools/form.dart';
 import 'package:ptmate_client/calendar/session.dart';
 import 'package:ptmate_client/calendar/results.dart';
 import 'package:ptmate_client/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 class ActivityPage extends StatefulWidget {
@@ -180,8 +180,9 @@ class _ActivityPageState extends State<ActivityPage> {
 
 
   _openURL(url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw 'Could not launch $url';
     }

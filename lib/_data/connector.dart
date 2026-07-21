@@ -450,9 +450,15 @@ class Connector {
       bool restricted =
           (data["restricted"] is bool ? data["restricted"] : false);
       String avatar = (data["avatar"] is String ? data["avatar"] : "");
+      var rawName = data["name"] ?? data["fullName"] ?? data["displayName"] ?? data["memberName"];
+      var parsedName = (rawName is String && rawName.trim().isNotEmpty) ? rawName : "Member";
+      if (parsedName.toLowerCase() == "client" || parsedName.toLowerCase() == "member") {
+          parsedName = "Member";
+      }
+
       space.linked.add(ModelClient(
           client,
-          (data["name"] is String ? data["name"] : "Member"),
+          parsedName,
           "",
           "",
           "",
@@ -3250,14 +3256,16 @@ class Connector {
       bool add = true;
       bool deleted = false;
       var arr = [];
-      var name = "Member";
+      var name = "";
       var avatar = "";
+      var rawName;
+      var parsedName = "";
 
       data.forEach((index, data) => ({
             add = true,
             deleted = false,
             arr = ["", ""],
-            name = "Member",
+            name = "",
             avatar = "",
             if (data["deleted"] != null)
               {
@@ -3271,10 +3279,12 @@ class Connector {
               {
                 if (item.id == index) {add = false}
               },
-            if (data["name"] != null)
+            rawName = data["name"] ?? data["fullName"] ?? data["displayName"] ?? data["memberName"],
+            parsedName = (rawName is String && rawName.trim().isNotEmpty) ? rawName : "Member",
+            if (parsedName.toLowerCase() == "client" || parsedName.toLowerCase() == "member") { parsedName = "Member" },
+            if (parsedName != "Member")
               {
-                arr = (data["name"] is String ? data["name"] : "Member")
-                    .split(" "),
+                arr = parsedName.split(" "),
                 if (arr.length > 1)
                   {
                     if (arr[1] != "")
@@ -3283,8 +3293,10 @@ class Connector {
                       {name = arr[0]}
                   }
                 else
-                  {name = (data["name"] is String ? data["name"] : "Member")}
-              },
+                  {name = arr[0]}
+              }
+            else
+              {name = parsedName},
             if (add && !deleted)
               {
                 GlobalData.clients.add(ModelClient(
@@ -4301,15 +4313,17 @@ class Connector {
         bool add = true;
         bool deleted = false;
         var arr = [];
-        var name = "Member";
+        var name = "";
         var phone = "";
         var avatar = "";
+        var rawName;
+        var parsedName = "";
 
         data.forEach((index, data) => ({
               add = true,
               deleted = false,
               arr = ["", ""],
-              name = "Member",
+              name = "",
               phone = "",
               avatar = "",
               if (data["deleted"] != null)
@@ -4320,10 +4334,10 @@ class Connector {
                 {
                   avatar = (data["avatar"] is String ? data["avatar"] : ""),
                 },
-              if (data["name"] != null)
-                {
-                  name = (data["name"] is bool ? data["name"] : "Member"),
-                },
+              rawName = data["name"] ?? data["fullName"] ?? data["displayName"] ?? data["memberName"],
+              parsedName = (rawName is String && rawName.trim().isNotEmpty) ? rawName : "Member",
+              if (parsedName.toLowerCase() == "client" || parsedName.toLowerCase() == "member") { parsedName = "Member" },
+              name = parsedName,
               for (var item in GlobalData.trainerClients)
                 {
                   if (item.id == index) {add = false}

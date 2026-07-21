@@ -735,7 +735,7 @@ class _NewDebitPageState extends State<NewDebitPage> {
 
 
   _getFamilyName(id) {
-    var label = "Member";
+    var label = "";
     for(var cl in GlobalData.clients) {
       if(cl.id == id) {
         label = cl.name;

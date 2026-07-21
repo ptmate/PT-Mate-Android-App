@@ -942,7 +942,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getName(ModelPost item) {
-    var label = "Member";
+    var label = "";
     if (item.author == GlobalData.space.id) {
       label = GlobalData.space.name;
     }

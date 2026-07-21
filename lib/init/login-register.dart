@@ -109,7 +109,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage>
   Future<void> getUserId() async {
     GlobalUser.uid = FirebaseAuth.instance.currentUser!.uid;
     GlobalUser.email = FirebaseAuth.instance.currentUser!.email!;
-    FirebaseAuth.instance.currentUser!.updateProfile(displayName: "client");
+    FirebaseAuth.instance.currentUser!.updateProfile(displayName: "Member");
     gotoNext("register");
   }
 
