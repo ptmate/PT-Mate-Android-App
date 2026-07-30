@@ -437,7 +437,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage>
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.WhiteColor,
-                        fontFamily: "Oswald",
+                        fontFamily: "Quicksand",
                         fontWeight: FontWeight.w500,
                         fontSize: 16,
                       ),

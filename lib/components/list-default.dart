@@ -111,7 +111,7 @@ class ListDefault extends StatelessWidget {
               smalllabel.toUpperCase(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontFamily: "Oswald",
+                fontFamily: "Quicksand",
                 color: AppColors.WhiteColor,
                 fontSize: 10,
               ),
@@ -132,7 +132,7 @@ class ListDefault extends StatelessWidget {
               smalllabel.toUpperCase(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontFamily: "Oswald",
+                fontFamily: "Quicksand",
                 color: AppColors.WhiteColor,
                 fontSize: 10,
               ),
@@ -153,7 +153,7 @@ class ListDefault extends StatelessWidget {
               smalllabel.toUpperCase(),
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontFamily: "Oswald",
+                fontFamily: "Quicksand",
                 color: AppColors.WhiteColor,
                 fontSize: 10,
               ),

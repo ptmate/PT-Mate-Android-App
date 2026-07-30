@@ -83,7 +83,7 @@ class TitleDoubleLabel extends StatelessWidget {
             right.toUpperCase(),
             textAlign: TextAlign.left,
             style: TextStyle(
-              fontFamily: "Oswald",
+              fontFamily: "Quicksand",
               color: AppColors.WhiteColor,
               fontSize: 10,
             ),

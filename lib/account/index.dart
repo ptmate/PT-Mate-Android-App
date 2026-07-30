@@ -732,7 +732,7 @@ class _AccountPageState extends State<AccountPage> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                             color: AppColors.AlertColor,
-                                            fontFamily: "Oswald",
+                                            fontFamily: "Quicksand",
                                             fontWeight: FontWeight.w500,
                                             fontSize: 11,
                                           ),
