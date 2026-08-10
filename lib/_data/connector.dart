@@ -2808,7 +2808,7 @@ class Connector {
                 },
               if (data["weeks"] != null)
                 {
-                  data["weeks"].forEach((wkey, week) => ({
+                  (data["weeks"] is List ? {for (var i = 0; i < data["weeks"].length; i++) if (data["weeks"][i] != null) i.toString(): data["weeks"][i]} : data["weeks"]).forEach((wkey, week) => ({
                         weeks.add(ModelPlanWeek(
                           wkey,
                           (week["num"] is int ? week["num"] : 0),
@@ -2826,7 +2826,7 @@ class Connector {
               weeks.sort((a, b) => a.name.compareTo(b.name)),
               if (data["workouts"] != null)
                 {
-                  data["workouts"].forEach((pkey, prog) => ({
+                  (data["workouts"] is List ? {for (var i = 0; i < data["workouts"].length; i++) if (data["workouts"][i] != null) i.toString(): data["workouts"][i]} : data["workouts"]).forEach((pkey, prog) => ({
                         bench = false,
                         if (prog["benchmark"] != null)
                           {
