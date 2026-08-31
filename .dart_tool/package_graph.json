@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "ptmate_client",
-      "version": "7.6.10+175",
+      "version": "7.6.10+176",
       "dependencies": [
         "animations",
         "audioplayers",
