@@ -12,6 +12,7 @@ import 'package:ptmate_client/components/button-primary.dart';
 import 'package:ptmate_client/components/subtitle.dart';
 import 'package:ptmate_client/account/avatar.dart';
 import 'package:ptmate_client/main.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 
 class UpdatePage extends StatefulWidget {
@@ -422,16 +423,14 @@ class _UpdatePageState extends State<UpdatePage> {
 
   getImageView() {
     if(!newImage && GlobalUser.image != "") {
-      getImage();
+      if (img == "") {
+        getImage();
+      }
+      final decImage = ImageUrlResolver.safeDecorationImage(img, fit: BoxFit.cover);
       return ClipRRect(
         borderRadius: BorderRadius.circular(55),
         child: Container (
-          foregroundDecoration: (img != "" && img.startsWith("http")) ? BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(img),
-              fit: BoxFit.cover),
-              //fit: BoxFit.fill),
-          ) : null,
+          foregroundDecoration: decImage != null ? BoxDecoration(image: decImage) : null,
         )
       );
     } else if(!newImage && GlobalUser.image == "") {
@@ -471,11 +470,12 @@ class _UpdatePageState extends State<UpdatePage> {
 
 
   void getImage() async {
-    final ref = FirebaseStorage.instance.ref().child(GlobalUser.image);
-    var url = await ref.getDownloadURL();
-    setState(() {
-      img = url;
-    });
+    final url = await ImageUrlResolver.resolveUrl(GlobalUser.image, contextTag: 'AccountUpdate');
+    if (url != null && mounted) {
+      setState(() {
+        img = url;
+      });
+    }
   }
 
 

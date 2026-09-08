@@ -769,6 +769,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               left: MediaQuery.of(context).size.width / 2 - 60,
               child: AnimatedOpacity(
                   opacity: _opacity,
+
                   duration: Duration(milliseconds: 300),
                   curve: Curves.easeOut,
                   child: Transform.scale(

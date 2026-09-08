@@ -14,6 +14,7 @@ import 'package:ptmate_client/components/empty-message.dart';
 import 'package:ptmate_client/components/titleback.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/messaging/image.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 class ChatPage extends StatefulWidget {
   final String id;
@@ -420,6 +421,7 @@ class _ChatPageState extends State<ChatPage> {
 
   getMessage(msg) {
     if (msg.image != "") {
+      final imgUrl = getMessageImage(msg.image);
       return Column(
         children: [
           InkWell(
@@ -429,7 +431,11 @@ class _ChatPageState extends State<ChatPage> {
                   MaterialPageRoute(
                       builder: (context) => ImagePage(id, msg.image, "")));
             },
-            child: getMessageImage(msg.image) != "" ? Image.network(getMessageImage(msg.image)) : Container(),
+            child: ImageUrlResolver.safeImageNetwork(
+              imgUrl,
+              fallback: Container(),
+              contextTag: 'ChatPageIncoming',
+            ),
           ),
           Text(
             msg.text,
@@ -455,6 +461,7 @@ class _ChatPageState extends State<ChatPage> {
 
   getMessageYou(msg) {
     if (msg.image != "") {
+      final imgUrl = getMessageImage(msg.image);
       return Column(
         children: [
           InkWell(
@@ -464,7 +471,11 @@ class _ChatPageState extends State<ChatPage> {
                   MaterialPageRoute(
                       builder: (context) => ImagePage(id, msg.image, "")));
             },
-            child: getMessageImage(msg.image) != "" ? Image.network(getMessageImage(msg.image)) : Container(),
+            child: ImageUrlResolver.safeImageNetwork(
+              imgUrl,
+              fallback: Container(),
+              contextTag: 'ChatPageOutgoing',
+            ),
           ),
           Text(
             msg.text,
@@ -489,19 +500,19 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   getImage(image) async {
-    final ref = FirebaseStorage.instance
-        .ref()
-        .child("images/messaging/" + id + "/" + image + ".jpg");
-    var url = await ref.getDownloadURL();
-    var tmp = images;
-    for (var item in tmp) {
-      if (item["orig"] == image) {
-        item["url"] = url;
+    final target = "images/messaging/" + id + "/" + image + ".jpg";
+    final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'ChatPage');
+    if (url != null && mounted) {
+      var tmp = images;
+      for (var item in tmp) {
+        if (item["orig"] == image) {
+          item["url"] = url;
+        }
       }
+      setState(() {
+        images = tmp;
+      });
     }
-    setState(() {
-      images = tmp;
-    });
   }
 
   chooseImage() {

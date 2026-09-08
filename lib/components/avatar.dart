@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ptmate_client/main.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 
 class Avatar extends StatefulWidget {
@@ -33,6 +33,7 @@ class _AvatarState extends State<Avatar> {
       label = widget.label;
       size = widget.size;
       image = widget.image;
+      img = ImageUrlResolver.isValidRemoteUrl(widget.image) ? widget.image : "";
       font = widget.font;
       avatar = widget.avatar;
     });
@@ -44,17 +45,19 @@ class _AvatarState extends State<Avatar> {
 
 
   void getImage() async {
-    final ref = FirebaseStorage.instance.ref().child(image);
-    var url = await ref.getDownloadURL();
-    setState(() {
-      img = url;
-    });
+    final url = await ImageUrlResolver.resolveUrl(image, contextTag: 'Avatar');
+    if (url != null && mounted) {
+      setState(() {
+        img = url;
+      });
+    }
   }
 
   
   @override
   Widget build(BuildContext context) {
-    if(img == "") {
+    final decImage = ImageUrlResolver.safeDecorationImage(img, fit: BoxFit.cover);
+    if(img == "" || decImage == null) {
       if(avatar == "") {
         return Container (
           padding: EdgeInsets.fromLTRB(0, (size-font)/2-(font/8), 0, 0),
@@ -99,11 +102,9 @@ class _AvatarState extends State<Avatar> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(size/2),
           child: Container (
-            foregroundDecoration: (img != "" && img.startsWith("http")) ? BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(img),
-                fit: BoxFit.cover),
-            ) : null,
+            foregroundDecoration: BoxDecoration(
+              image: decImage,
+            ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(size/2),
               color: AppColors.AvatarColor,

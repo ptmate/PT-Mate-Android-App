@@ -12,6 +12,7 @@ import 'package:ptmate_client/nav.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptmate_client/_data/sender.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostPage extends StatefulWidget {
@@ -262,15 +263,14 @@ class _PostPageState extends State<PostPage> {
 
   getImageView(vn, vio, vimg, vi, num) {
     if(!newImage && imgOrig != "") {
-      getImage();
+      if (img == "") {
+        getImage();
+      }
+      final decImage = ImageUrlResolver.safeDecorationImage(vimg, fit: BoxFit.contain);
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container (
-          foregroundDecoration: (vimg != "" && vimg.startsWith("http")) ? BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(vimg),
-              fit: BoxFit.contain),
-          ) : null,
+          foregroundDecoration: decImage != null ? BoxDecoration(image: decImage) : null,
         )
       );
     } else if(!newImage && imgOrig == "") {
@@ -292,11 +292,15 @@ class _PostPageState extends State<PostPage> {
 
 
   void getImage() async {
-    final ref = FirebaseStorage.instance.ref().child(imgOrig);
-    var url = await ref.getDownloadURL();
-    setState(() {
-      img = url;
-    });
+    final target = img.isNotEmpty ? img : (item.url.isNotEmpty ? item.url : imgOrig);
+    if (target.isEmpty) return;
+    final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'PostPage');
+    if (url != null && mounted) {
+      setState(() {
+        img = url;
+        item.url = url;
+      });
+    }
   }
 
 

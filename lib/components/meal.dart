@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ptmate_client/health/index.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/_data/variables.dart';
-import 'package:ptmate_client/health/index.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:ptmate_client/_data/client.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 
 class Meal extends StatefulWidget {
@@ -101,7 +101,8 @@ class _MealState extends State<Meal> {
 
 
   showImage() {
-    if(widget.image != "") {
+    final decImage = ImageUrlResolver.safeDecorationImage(widget.image, fit: BoxFit.cover);
+    if(widget.image != "" && decImage != null) {
       return (
         Stack(
           children: [
@@ -111,9 +112,7 @@ class _MealState extends State<Meal> {
                 height: 190,
                 color: AppColors.FieldColor,
                 foregroundDecoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(widget.image),
-                    fit: BoxFit.cover),
+                  image: decImage,
                 ),
               )
             ),

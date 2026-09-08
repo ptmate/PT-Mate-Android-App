@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "ptmate_client",
-      "version": "7.6.10+176",
+      "version": "7.6.10+177",
       "dependencies": [
         "animations",
         "audioplayers",
@@ -427,7 +427,7 @@
     },
     {
       "name": "matcher",
-      "version": "0.12.18",
+      "version": "0.12.19",
       "dependencies": [
         "async",
         "meta",
@@ -438,7 +438,7 @@
     },
     {
       "name": "test_api",
-      "version": "0.7.9",
+      "version": "0.7.10",
       "dependencies": [
         "async",
         "boolean_selector",

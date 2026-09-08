@@ -4,7 +4,7 @@ import 'package:ptmate_client/_data/models.dart';
 import 'package:ptmate_client/components/titleback.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/components/list-person.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 class ReactionsPage extends StatefulWidget {
   final String id;
@@ -166,12 +166,13 @@ class _ReactionsPageState extends State<ReactionsPage> {
 
 
   getImage() async {
-    final ref = FirebaseStorage.instance.ref().child(GlobalData.space.image);
-    var url = await ref.getDownloadURL();
-    setState(() {
-      img = url;
-    });
-    updateData();
+    final url = await ImageUrlResolver.resolveUrl(GlobalData.space.image, contextTag: 'ReactionsPage');
+    if (url != null && mounted) {
+      setState(() {
+        img = url;
+      });
+      updateData();
+    }
   }
 
 

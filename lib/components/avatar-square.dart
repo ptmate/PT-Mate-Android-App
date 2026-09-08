@@ -1,6 +1,6 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:ptmate_client/main.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 class AvatarSquare extends StatefulWidget {
   final String label;
@@ -26,6 +26,7 @@ class _AvatarSquareState extends State<AvatarSquare> {
       label = widget.label;
       size = widget.size;
       image = widget.image;
+      img = ImageUrlResolver.isValidRemoteUrl(widget.image) ? widget.image : "";
       font = widget.font;
     });
     if (image != "") {
@@ -34,17 +35,19 @@ class _AvatarSquareState extends State<AvatarSquare> {
   }
 
   void getImage() async {
-    final ref = FirebaseStorage.instance.ref().child(image);
-    var url = await ref.getDownloadURL();
+    final url = await ImageUrlResolver.resolveUrl(image, contextTag: 'AvatarSquare');
     if (!mounted) return;
-    setState(() {
-      img = url;
-    });
+    if (url != null) {
+      setState(() {
+        img = url;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (img == "") {
+    final decImage = ImageUrlResolver.safeDecorationImage(img, fit: BoxFit.cover);
+    if (img == "" || decImage == null) {
       return Container(
         padding: EdgeInsets.fromLTRB(0, (size - font) / 2 - (font / 8), 0, 0),
         width: size,
@@ -75,9 +78,7 @@ class _AvatarSquareState extends State<AvatarSquare> {
               borderRadius: BorderRadius.circular(size * 0.075),
               child: Container(
                 foregroundDecoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(img), fit: BoxFit.cover),
-                  //fit: BoxFit.fill),
+                  image: decImage,
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(size * 0.075),

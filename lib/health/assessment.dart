@@ -13,6 +13,7 @@ import 'package:ptmate_client/components/button-secondary-small.dart';
 import 'package:ptmate_client/components/button-tertiary.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/health/new-assessment.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 
 class AssessmentPage extends StatefulWidget {
@@ -331,16 +332,14 @@ class _AssessmentPageState extends State<AssessmentPage> {
 
   getImageView(iimage, iimg, num) {
     if(iimage != "") {
-      getImage(num);
+      if (iimg == "") {
+        getImage(num);
+      }
+      final decImage = ImageUrlResolver.safeDecorationImage(iimg, fit: BoxFit.contain);
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container (
-          foregroundDecoration: (iimg != "" && iimg.startsWith("http")) ? BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(iimg),
-              fit: BoxFit.contain),
-              //fit: BoxFit.fill),
-          ) : null,
+          foregroundDecoration: decImage != null ? BoxDecoration(image: decImage) : null,
         )
       );
     } else {
@@ -350,29 +349,30 @@ class _AssessmentPageState extends State<AssessmentPage> {
 
 
   void getImage(number) async {
+    String target = "";
     if(number == 1) {
-      final ref = FirebaseStorage.instance.ref().child(item.image);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img = url;
-      });
+      target = item.image;
     } else if(number == 2) {
-      final ref = FirebaseStorage.instance.ref().child(item.image2);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img2 = url;
-      });
+      target = item.image2;
     } else if(number == 3) {
-      final ref = FirebaseStorage.instance.ref().child(item.image3);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img3 = url;
-      });
+      target = item.image3;
     } else if(number == 4) {
-      final ref = FirebaseStorage.instance.ref().child(item.image4);
-      var url = await ref.getDownloadURL();
+      target = item.image4;
+    }
+
+    if (target.isEmpty) return;
+    final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'Assessment_$number');
+    if (url != null && mounted) {
       setState(() {
-        img4 = url;
+        if(number == 1) {
+          img = url;
+        } else if(number == 2) {
+          img2 = url;
+        } else if(number == 3) {
+          img3 = url;
+        } else if(number == 4) {
+          img4 = url;
+        }
       });
     }
   }

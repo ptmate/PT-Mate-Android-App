@@ -14,6 +14,7 @@ import 'package:ptmate_client/components/titleback.dart';
 import 'package:ptmate_client/components/button-primary.dart';
 import 'package:ptmate_client/components/button-tertiary.dart';
 import 'package:ptmate_client/main.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 
 class NewAssessmentPage extends StatefulWidget {
@@ -946,21 +947,17 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
 
 
   getImageView(vn, vio, vimg, vi, num) {
-    //if(!newImage && imgOrig != "") {
     if(!vn && vio != "") {
-      getImage(num);
+      if (vimg == "") {
+        getImage(num);
+      }
+      final decImage = ImageUrlResolver.safeDecorationImage(vimg, fit: BoxFit.contain);
       return ClipRRect(
         borderRadius: BorderRadius.circular(5),
         child: Container (
-          foregroundDecoration: (vimg != "" && vimg.startsWith("http")) ? BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(vimg),
-              fit: BoxFit.contain),
-              //fit: BoxFit.fill),
-          ) : null,
+          foregroundDecoration: decImage != null ? BoxDecoration(image: decImage) : null,
         )
       );
-    //} else if(!newImage && imgOrig == "") {
     } else if(!vn && vio == "") {
       return SvgPicture.asset("assets/images/common/no-image-trans.svg", width: 110, height: 110);
     } else {
@@ -980,34 +977,30 @@ class _NewAssessmentPageState extends State<NewAssessmentPage> {
 
 
   void getImage(number) async {
-    /*final ref = FirebaseStorage.instance.ref().child(imgOrig);
-    var url = await ref.getDownloadURL();
-    setState(() {
-      img = url;
-    });*/
+    String target = "";
     if(number == 1) {
-      final ref = FirebaseStorage.instance.ref().child(imgOrig);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img = url;
-      });
+      target = imgOrig;
     } else if(number == 2) {
-      final ref = FirebaseStorage.instance.ref().child(imgOrig2);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img2 = url;
-      });
+      target = imgOrig2;
     } else if(number == 3) {
-      final ref = FirebaseStorage.instance.ref().child(imgOrig3);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img3 = url;
-      });
+      target = imgOrig3;
     } else if(number == 4) {
-      final ref = FirebaseStorage.instance.ref().child(imgOrig4);
-      var url = await ref.getDownloadURL();
+      target = imgOrig4;
+    }
+
+    if (target.isEmpty) return;
+    final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'NewAssessment_$number');
+    if (url != null && mounted) {
       setState(() {
-        img4 = url;
+        if(number == 1) {
+          img = url;
+        } else if(number == 2) {
+          img2 = url;
+        } else if(number == 3) {
+          img3 = url;
+        } else if(number == 4) {
+          img4 = url;
+        }
       });
     }
   }

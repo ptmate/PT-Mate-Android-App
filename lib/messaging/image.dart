@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/components/titleback.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 
 class ImagePage extends StatefulWidget {
@@ -44,7 +44,11 @@ class _ImagePageState extends State<ImagePage> {
               margin: EdgeInsets.only(bottom: 30),
               child: TitleLabelBack(""),
             ),
-            img != "" ? Image.network(img) : Container()
+            ImageUrlResolver.safeImageNetwork(
+              img,
+              fallback: Container(),
+              contextTag: 'ImagePage',
+            )
           ]
         ),
       ),
@@ -55,30 +59,18 @@ class _ImagePageState extends State<ImagePage> {
 
 
   getImage() async {
+    String target = "";
     if(widget.post == "") {
-      final ref = FirebaseStorage.instance.ref().child("images/messaging/"+widget.id+"/"+widget.image+".jpg");
-      var url = await ref.getDownloadURL();
-      if (mounted) {
-        setState(() {
-          img = url;
-        });
-      }
+      target = "images/messaging/"+widget.id+"/"+widget.image+".jpg";
     } else {
-      if (widget.post.startsWith("http")) {
-        if (mounted) {
-          setState(() {
-            img = widget.post;
-          });
-        }
-      } else {
-        final ref = FirebaseStorage.instance.ref().child(widget.post);
-        var url = await ref.getDownloadURL();
-        if (mounted) {
-          setState(() {
-            img = url;
-          });
-        }
-      }
+      target = widget.post;
+    }
+
+    final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'ImagePage');
+    if (url != null && mounted) {
+      setState(() {
+        img = url;
+      });
     }
   }
 

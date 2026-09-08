@@ -40,6 +40,7 @@ import 'package:ptmate_client/init/connect.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/messaging/chat.dart';
 import 'package:ptmate_client/messaging/image.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 import 'package:ptmate_client/tools/index.dart';
 import 'package:ptmate_client/training/program.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -843,14 +844,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   renderImage(ModelPost item) {
-    if (item.image != '') {
-      getImage(item);
+    if (item.image != '' || item.url != '') {
+      if (item.url.isEmpty) {
+        getImage(item);
+      }
+      final decImage =
+          ImageUrlResolver.safeDecorationImage(item.url, fit: BoxFit.cover);
       return InkWell(
           onTap: () {
+            final dest = item.url.isNotEmpty ? item.url : item.image;
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ImagePage("", "", item.url != "" ? item.url : item.image)));
+                    builder: (context) => ImagePage("", "", dest)));
           },
           child: Container(
               margin: EdgeInsets.only(top: 15),
@@ -863,10 +869,9 @@ class _HomePageState extends State<HomePage> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: Container(
-                    foregroundDecoration: (item.url != "" && item.url.startsWith("http")) ? BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(item.url), fit: BoxFit.cover),
-                    ) : null,
+                    foregroundDecoration: decImage != null
+                        ? BoxDecoration(image: decImage)
+                        : null,
                   ))));
     } else {
       return Container();
@@ -891,14 +896,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getImage(ModelPost item) async {
-    String img = "";
-    final ref = FirebaseStorage.instance.ref().child(item.image);
-    var url = await ref.getDownloadURL();
-    item.url = url;
-    if (!mounted) return;
-    setState(() {
-      img = url;
-    });
+    final target = item.url.isNotEmpty ? item.url : item.image;
+    if (target.isEmpty) return;
+    final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'HomePagePost');
+    if (url != null && mounted) {
+      setState(() {
+        item.url = url;
+      });
+    }
   }
 
   String getAvatar(item) {

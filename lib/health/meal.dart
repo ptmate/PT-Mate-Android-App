@@ -13,6 +13,7 @@ import 'package:ptmate_client/components/button-tertiary.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/health/index.dart';
 import 'package:ptmate_client/components/empty.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 
 class MealPage extends StatefulWidget {
@@ -283,7 +284,8 @@ class _MealPageState extends State<MealPage> {
 
 
   showImage() {
-    if(image != "") {
+    final decImage = ImageUrlResolver.safeDecorationImage(image, fit: BoxFit.cover);
+    if(image != "" && decImage != null) {
       return (
         Stack(
           children: [
@@ -293,9 +295,7 @@ class _MealPageState extends State<MealPage> {
                 height: 190,
                 color: AppColors.FieldColor,
                 foregroundDecoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(image),
-                    fit: BoxFit.cover),
+                  image: decImage,
                 ),
               )
             ),
@@ -568,11 +568,9 @@ class _MealPageState extends State<MealPage> {
                 width: MediaQuery.of(context).size.width-40,
                 height: 190,
                 color: AppColors.FieldColor,
-                foregroundDecoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(_getImage(meal.recipe)),
-                    fit: BoxFit.cover),
-                ),
+                foregroundDecoration: ImageUrlResolver.safeDecorationImage(_getImage(meal.recipe), fit: BoxFit.cover) != null ? BoxDecoration(
+                  image: ImageUrlResolver.safeDecorationImage(_getImage(meal.recipe), fit: BoxFit.cover),
+                ) : null,
               ),
               Container (
                 margin: EdgeInsets.fromLTRB(20, 13, 20, 5),

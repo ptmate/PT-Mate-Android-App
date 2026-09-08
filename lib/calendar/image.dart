@@ -9,8 +9,8 @@ import 'package:ptmate_client/components/card-text.dart';
 import 'package:ptmate_client/components/list-text.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/components/titleback.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:ptmate_client/components/button-primary.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -193,7 +193,7 @@ class _ExImagePageState extends State<ExImagePage> {
                   children: [
                     Container (
                       margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                      child: img != "" ? Image.network(
+                      child: ImageUrlResolver.safeImageNetwork(
                         img,
                         loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                           if (loadingProgress == null) return child;
@@ -203,10 +203,12 @@ class _ExImagePageState extends State<ExImagePage> {
                             child: CircularProgressIndicator(color: Colors.white),
                           );
                         },
-                      ) : Container(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        alignment: Alignment.center,
-                        child: CircularProgressIndicator(color: Colors.white),
+                        fallback: Container(
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          alignment: Alignment.center,
+                          child: CircularProgressIndicator(color: Colors.white),
+                        ),
+                        contextTag: 'ExImagePage',
                       )
                     ),
                     getWeights(),
@@ -315,13 +317,14 @@ class _ExImagePageState extends State<ExImagePage> {
         img = 'https://www.ptmate.app/img/exercises/'+widget.item.image+'.jpg';
       });
     } else {
-      final ref = FirebaseStorage.instance.ref().child('/images/exercises/'+widget.item.image);
-      var url = await ref.getDownloadURL();
-      setState(() {
-        img = url;
-      });
+      final target = 'images/exercises/'+widget.item.image;
+      final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'ExImagePage');
+      if (url != null && mounted) {
+        setState(() {
+          img = url;
+        });
+      }
     }
-    
   }
 
 

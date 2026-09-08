@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ptmate_client/_data/variables.dart';
+import 'package:ptmate_client/_helper/image_resolver.dart';
 
 class FirebaseSender {
   // Session booking
@@ -1188,10 +1189,11 @@ class FirebaseSender {
         .child("community/" + GlobalData.space.id + "/" + id)
         .remove();
     if (image != "") {
-      FirebaseStorage.instance
-          .ref()
-          .child("images/community/" + GlobalData.space.id + "/" + id + ".jpg")
-          .delete();
+      try {
+        final normalized = ImageUrlResolver.normalizeStoragePath(image) ??
+            ("images/community/" + GlobalData.space.id + "/" + id + ".jpg");
+        FirebaseStorage.instance.ref().child(normalized).delete();
+      } catch (_) {}
     }
   }
 

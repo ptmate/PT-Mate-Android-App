@@ -15,6 +15,8 @@ import 'package:ptmate_client/home/reactions.dart';
 import 'package:ptmate_client/messaging/image.dart';
 
 
+import 'package:ptmate_client/_helper/image_resolver.dart';
+
 class PostItem extends StatefulWidget {
   final ModelPost item;
   const PostItem(this.item);
@@ -45,14 +47,18 @@ class _PostItemState extends State<PostItem> {
       dark = "-dark";
     }
     setState(() {
-      img = widget.item.image;
       item = widget.item;
+      img = ImageUrlResolver.isValidRemoteUrl(widget.item.url)
+          ? widget.item.url
+          : (ImageUrlResolver.isValidRemoteUrl(widget.item.image)
+              ? widget.item.image
+              : "");
       r1 = widget.item.reaction1;
       r2 = widget.item.reaction2;
       r3 = widget.item.reaction3;
       r4 = widget.item.reaction4;
     });
-    if(img != "") {
+    if (item.image != "" || item.url != "") {
       getImage();
     }
   }
@@ -69,7 +75,9 @@ class _PostItemState extends State<PostItem> {
       for(var pos in GlobalData.community) {
         if(pos.id == item.id) {
           tmp = pos;
-          timg = pos.image;
+          timg = ImageUrlResolver.isValidRemoteUrl(pos.url)
+              ? pos.url
+              : (ImageUrlResolver.isValidRemoteUrl(pos.image) ? pos.image : "");
           tr1 = pos.reaction1;
           tr2 = pos.reaction2;
           tr3 = pos.reaction3;
@@ -78,12 +86,17 @@ class _PostItemState extends State<PostItem> {
       }
       setState(() {
         item = tmp;
-        img = timg;
+        if (timg.isNotEmpty) {
+          img = timg;
+        }
         r1 = tr1;
         r2 = tr2;
         r3 = tr3;
         r4 = tr4;
       });
+      if (img.isEmpty && (item.image.isNotEmpty || item.url.isNotEmpty)) {
+        getImage();
+      }
     }
   }
 
@@ -225,31 +238,38 @@ class _PostItemState extends State<PostItem> {
 
 
   renderImage() {
-    if(item.image != '') {
-      getImage();
+    if (item.image != '' || img != '' || item.url != '') {
+      if (img == '') {
+        getImage();
+      }
+      final decImage = ImageUrlResolver.safeDecorationImage(img, fit: BoxFit.cover);
       return InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ImagePage("", "", item.url != "" ? item.url : item.image)));
+          final dest = img.isNotEmpty ? img : (item.url.isNotEmpty ? item.url : item.image);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ImagePage("", "", dest),
+            ),
+          );
         },
-        child: Container (
+        child: Container(
           margin: EdgeInsets.only(top: 15),
-          width: MediaQuery.of(context).size.width-25,
+          width: MediaQuery.of(context).size.width - 25,
           height: 160,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             color: AppColors.FieldColor,
           ),
           child: ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-            child: Container (
-              foregroundDecoration: (img != "" && img.startsWith("http")) ? BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(img),
-                  fit: BoxFit.cover),
-              ) : null,
-            )
-          )
-        )
+            borderRadius: BorderRadius.circular(5),
+            child: Container(
+              foregroundDecoration: decImage != null
+                  ? BoxDecoration(image: decImage)
+                  : null,
+            ),
+          ),
+        ),
       );
     } else {
       return Container();
@@ -486,10 +506,14 @@ class _PostItemState extends State<PostItem> {
 
 
   void getImage() async {
-    final ref = FirebaseStorage.instance.ref().child(item.image);
-    var url = await ref.getDownloadURL();
-    setState(() {
-      img = url;
-    });
+    final target = item.url.isNotEmpty ? item.url : item.image;
+    if (target.isEmpty) return;
+    final url = await ImageUrlResolver.resolveUrl(target, contextTag: 'PostItem');
+    if (url != null && mounted) {
+      setState(() {
+        img = url;
+        item.url = url;
+      });
+    }
   }
 }
