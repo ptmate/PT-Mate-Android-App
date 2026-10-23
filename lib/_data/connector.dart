@@ -46,6 +46,23 @@ import 'package:ptmate_client/training/plan.dart';
 import 'package:ptmate_client/training/program.dart';
 
 class Connector {
+  static DateTime parseCommentDate(dynamic raw) {
+    if (raw == null) return DateTime.now();
+    num? n = (raw is num) ? raw : num.tryParse(raw.toString());
+    if (n != null && n > 0) {
+      if (n < 10000000000) {
+        return DateTime.fromMillisecondsSinceEpoch((n * 1000).toInt());
+      } else {
+        return DateTime.fromMillisecondsSinceEpoch(n.toInt());
+      }
+    }
+    DateTime? parsed = DateTime.tryParse(raw.toString());
+    if (parsed != null) {
+      return parsed;
+    }
+    return DateTime.now();
+  }
+
   // User data
   static void getUser() {
     var ref =
@@ -774,8 +791,7 @@ class Connector {
                   data["comments"].forEach((ckey, comm) => ({
                         if (comm["date"] != null)
                           {
-                            cdate = DateTime.fromMillisecondsSinceEpoch(
-                                (int.tryParse(comm["date"].toString()) ?? 0) * 1000)
+                            cdate = parseCommentDate(comm["date"])
                           },
                         comments.add(ModelComment(
                             ckey,
@@ -1197,8 +1213,7 @@ class Connector {
                       data["comments"].forEach((ckey, comm) => ({
                             if (comm["date"] != null)
                               {
-                                cdate = DateTime.fromMillisecondsSinceEpoch(
-                                    (int.tryParse(comm["date"].toString()) ?? 0) * 1000)
+                                cdate = parseCommentDate(comm["date"])
                               },
                             comments.add(ModelComment(
                                 ckey,
@@ -3898,8 +3913,7 @@ class Connector {
                             cindex,
                             (comm["text"] is String ? comm["text"] : ""),
                             (comm["image"] is String ? comm["image"] : ""),
-                            DateTime.fromMillisecondsSinceEpoch(
-                                ((int.tryParse(comm["date"].toString()) ?? 0) * 1000).toInt()),
+                            parseCommentDate(comm["date"]),
                             (comm["author"] is String ? comm["author"] : ""),
                             (comm["reaction1"] is String
                                 ? comm["reaction1"]

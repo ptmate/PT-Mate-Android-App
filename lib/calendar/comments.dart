@@ -47,6 +47,8 @@ class _CommentsPageState extends State<CommentsPage> {
     });
   }
 
+  bool isSending = false;
+
   void _updateValue(value) {
     setState(() {
       text = value;
@@ -54,24 +56,50 @@ class _CommentsPageState extends State<CommentsPage> {
   }
 
   sendComment() {
-    if (text != "") {
+    if (text != "" && !isSending) {
+      setState(() {
+        isSending = true;
+      });
       var msg = "Comment added";
       var name = item.name;
-      if(item.availability) {
+      if (item.availability) {
         name = "1:1 Availability";
       }
-      if(comment != "") {
+      if (comment != "") {
         msg = "Comment updated";
         FirebaseSender.updateComment(id, text, item.type, comment);
+        for (var c in item.comments) {
+          if (c.id == comment) {
+            c.text = text;
+          }
+        }
       } else {
         var tokens = [GlobalData.space.token];
         FirebaseSender.addComment(id, text, item.type);
-        for(var client in GlobalData.clients) {
-          if(item.clients.contains(client.id) || item.invitees.contains(client.id) || item.waiting.contains(client.id)) {
+        for (var client in GlobalData.clients) {
+          if (item.clients.contains(client.id) ||
+              item.invitees.contains(client.id) ||
+              item.waiting.contains(client.id)) {
             tokens.add(client.token);
           }
         }
-        FirebaseSender.sendPushMessage("", "New comment", GlobalUser.name+" commented on "+name+" "+HelperCal.getSpecialDate(item.date) +".", "session", id, tokens);
+        FirebaseSender.sendPushMessage(
+            "",
+            "New comment",
+            GlobalUser.name +
+                " commented on " +
+                name +
+                " " +
+                HelperCal.getSpecialDate(item.date) +
+                ".",
+            "session",
+            id,
+            tokens);
+        item.comments.add(ModelComment(
+            DateTime.now().millisecondsSinceEpoch.toString(),
+            GlobalData.space.client,
+            DateTime.now(),
+            text));
       }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(msg),
@@ -82,7 +110,9 @@ class _CommentsPageState extends State<CommentsPage> {
       // Send push notifications to clients
 
       Future.delayed(const Duration(milliseconds: 1000), () {
-        Navigator.pop(context);
+        if (mounted) {
+          Navigator.pop(context, true);
+        }
       });
     }
   }

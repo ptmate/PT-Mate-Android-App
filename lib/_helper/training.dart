@@ -148,23 +148,27 @@ class HelperTrain {
 
   static String getResult(ex, number, block) {
     var rnds = block.rounds;
-    if(block.type == 5) {
+    if (block.type == 5 || (rnds <= 1 && block.cycles > 1)) {
       rnds = block.cycles;
     }
     int reps = ex.resReps ?? 0;
     double weight = ex.resWeight ?? 0;
-    if (ex.resRepsGroup != null) {
+    if (ex.resRepsGroup != null && ex.resRepsGroup != "") {
       var arr = ex.resRepsGroup.split("-");
-      arr.removeAt(0);
-      if(arr.length > number) {
-        reps = int.parse(arr[number]);
+      if (arr.isNotEmpty && arr[0] == "") {
+        arr.removeAt(0);
+      }
+      if (arr.length > number) {
+        reps = int.tryParse(arr[number]) ?? 0;
       }
     }
-    if (ex.resWeightGroup != null) {
+    if (ex.resWeightGroup != null && ex.resWeightGroup != "") {
       var arr = ex.resWeightGroup.split("-");
-      arr.removeAt(0);
-      if(arr.length > number) {
-        weight = double.parse(arr[number]);
+      if (arr.isNotEmpty && arr[0] == "") {
+        arr.removeAt(0);
+      }
+      if (arr.length > number) {
+        weight = double.tryParse(arr[number]) ?? 0.0;
       }
     }
 
@@ -172,61 +176,71 @@ class HelperTrain {
     if (reps == 1) {
       unit = " total rep";
     }
-    if(ex.tool == 6 || ex.tool == 7 || ex.tool == 25) {
+    if (ex.tool == 6 || ex.tool == 7 || ex.tool == 25) {
       unit = " m";
     }
-    if(ex.tool == 27) {
+    if (ex.tool == 27) {
       unit = " cal";
     }
     if (ex.tool == 28) {
       unit = " sec";
     }
-    if(ex.unit == "dist") {
+    if (ex.unit == "dist") {
       unit = " m";
     }
-    if(ex.unit == "cals") {
+    if (ex.unit == "cals") {
       unit = " cal";
     }
-    if(ex.unit == "time") {
+    if (ex.unit == "time") {
       unit = " sec";
     }
     String label = reps.toString() + unit;
-    if(reps == 0) {
+    if (reps == 0) {
       label = "-";
     }
-    if(ex.resRepsRounds != "" && (block.type == 1 || block.type == 4 || block.type == 5) && rnds > 1) {
+    if (ex.resRepsRounds != "" &&
+        (block.type == 1 || block.type == 4 || block.type == 5) &&
+        rnds > 1) {
       var rr = "";
       var ar = ex.resRepsRounds.split("|");
-      if(ar.length > number) {
-        if(ar[number] != "") {
-          rr = ar[number].substring(0, ar[number].length - 1);
+      if (ar.length > number) {
+        if (ar[number] != "") {
+          rr = ar[number].endsWith("-")
+              ? ar[number].substring(0, ar[number].length - 1)
+              : ar[number];
         }
       }
-      label = rr+unit;
+      label = rr + unit;
     }
 
-    
-    
-    if(ex.resWeightRounds != "" && (block.type == 1 || block.type == 4 || block.type == 5) && rnds > 1 && weight > 0) {
+    if (ex.resWeightRounds != "" &&
+        (block.type == 1 || block.type == 4 || block.type == 5) &&
+        rnds > 1 &&
+        weight > 0) {
       var wr = "";
       var ar2 = ex.resWeightRounds.split("|");
-      if(ar2.length > number) {
-        if(ar2[number] != "") {
-          wr = ar2[number].substring(0, ar2[number].length - 1);
+      if (ar2.length > number) {
+        if (ar2[number] != "") {
+          wr = ar2[number].endsWith("-")
+              ? ar2[number].substring(0, ar2[number].length - 1)
+              : ar2[number];
         }
       }
 
-      if(ex.weightType == "per") {
-
+      if (ex.weightType == "per") {
+        label += " with " + wr + " " + (GlobalData.space.lbs ? "lb" : "kg");
       } else {
-        label += " with "+wr+" "+ex.weightType;
+        label += " with " + wr + " " + ex.weightType;
       }
     } else {
       if (weight > 0) {
-        if(ex.weightType == "per") {
-          label += " with "+weight.toStringAsFixed(1)+" "+(GlobalData.space.lbs ? 'lb' : 'kg');
+        if (ex.weightType == "per") {
+          label += " with " +
+              weight.toStringAsFixed(1) +
+              " " +
+              (GlobalData.space.lbs ? 'lb' : 'kg');
         } else {
-          label += " with "+weight.toStringAsFixed(1)+" "+ex.weightType;
+          label += " with " + weight.toStringAsFixed(1) + " " + ex.weightType;
         }
       }
     }
@@ -234,10 +248,9 @@ class HelperTrain {
     if (weight == 0 && reps == 0) {
       label = "-";
     }
-    
+
     return label;
   }
-
 
   static String checkResultsLogged(block, clients, type) {
     int number = 0;
@@ -249,15 +262,18 @@ class HelperTrain {
     String label = "RESULTS LOGGED";
     if (type == "group") {
       label = "RESULTS PENDING";
-      if (block.movements[0].resRepsGroup != null) {
+      if (block.movements[0].resRepsGroup != null &&
+          block.movements[0].resRepsGroup != "") {
         var arr = block.movements[0].resRepsGroup.split("-");
-        arr.removeAt(0);
+        if (arr.isNotEmpty && arr[0] == "") {
+          arr.removeAt(0);
+        }
         int reps = 0;
-        if(arr != null && arr.length > number) {
-          int.parse(arr[number]);
+        if (arr.length > number) {
+          reps = int.tryParse(arr[number]) ?? 0;
         }
         if (reps > 0) {
-          label = "RESULTS LOGGEED";
+          label = "RESULTS LOGGED";
         }
       }
     } else {
@@ -266,7 +282,7 @@ class HelperTrain {
         label = "RESULTS PENDING";
       }
     }
-    if(!block.logResults || !clients.contains(GlobalData.space.client)) {
+    if (!block.logResults || !clients.contains(GlobalData.space.client)) {
       label = "";
     }
     return label;

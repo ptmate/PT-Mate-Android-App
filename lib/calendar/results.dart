@@ -217,19 +217,21 @@ class _ResultsPageState extends State<ResultsPage> {
             SharedAxisTransitionType.vertical));
   }
 
-  tapComment() {
-    Navigator.push(
+  tapComment() async {
+    await Navigator.push(
         context,
         PageRoutes.sharedAxis(() => CommentsPage(item.id, item, ""),
             SharedAxisTransitionType.vertical));
+    setState(() {});
   }
 
-  tapUpdate(block) {
-    Navigator.push(
+  tapUpdate(block) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => EditResultsPage(item.id, item, block)),
     );
+    setState(() {});
   }
 
   tapDelete() {
@@ -476,6 +478,42 @@ class _ResultsPageState extends State<ResultsPage> {
                 ),
               )));
         }
+
+        String memberNote = "";
+        var rawNotes = block.notesSimple != "" ? block.notesSimple : block.notesRes;
+        if (rawNotes != "") {
+          if (rawNotes.contains("|")) {
+            int clientIndex = 0;
+            if (item.type == "group" && item.clients.isNotEmpty) {
+              int idx = item.clients.indexOf(GlobalData.space.client);
+              if (idx != -1) clientIndex = idx;
+            }
+            var notesArray = rawNotes.split("|");
+            if (clientIndex < notesArray.length) {
+              var cn = notesArray[clientIndex].trim();
+              if (cn != "-" && cn.isNotEmpty) {
+                memberNote = cn;
+              }
+            }
+          } else {
+            memberNote = rawNotes.trim();
+          }
+        }
+
+        if (memberNote.isNotEmpty && memberNote != block.notes) {
+          items.add(Container(
+              width: MediaQuery.of(context).size.width - 70,
+              padding: EdgeInsets.only(top: 4),
+              child: Text(
+                memberNote,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: AppColors.textColor.withOpacity(0.85),
+                  fontStyle: FontStyle.italic,
+                  fontSize: (block.simple ? 14 : 11),
+                ),
+              )));
+        }
         if (block.logResults &&
             (item.clients.contains(GlobalData.space.client) ||
                 item.type == "pt" ||
@@ -567,12 +605,13 @@ class _ResultsPageState extends State<ResultsPage> {
           if (comment.sender == GlobalData.space.client ||
               comment.sender == GlobalUser.uid) {
             items.add(InkWell(
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  await Navigator.push(
                       context,
                       PageRoutes.sharedAxis(
                           () => CommentsPage(item.id, item, comment.id),
                           SharedAxisTransitionType.vertical));
+                  setState(() {});
                 },
                 child: ListComment(
                     getClient(comment.sender),

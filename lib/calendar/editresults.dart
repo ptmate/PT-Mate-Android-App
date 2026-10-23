@@ -4,7 +4,6 @@ import 'package:ptmate_client/_data/variables.dart';
 import 'package:ptmate_client/_data/models.dart';
 import 'package:ptmate_client/components/titleback.dart';
 import 'package:ptmate_client/components/button-primary.dart';
-import 'package:ptmate_client/_data/variables.dart';
 import 'package:ptmate_client/main.dart';
 import 'package:ptmate_client/_helper/training.dart';
 import 'package:ptmate_client/_data/sender.dart';
@@ -78,6 +77,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
   List ctrlL1 = [];
   List ctrlL2 = [];
   bool valueScaled = false;
+  bool isUpdating = false;
 
   @override
   void initState() {
@@ -124,7 +124,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
           block.type == 4 ||
           block.type == 5) {
         var rounds = block.rounds;
-        if (block.type == 5) {
+        if (block.type == 5 || (rounds <= 1 && block.cycles > 1)) {
           rounds = block.cycles;
         }
         for (var k = 0; k < rounds; k++) {
@@ -185,7 +185,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
         ctrlw[i].text = "0";
         if ((block.rounds > 1 || block.cycles > 1) && block.type != 0) {
           var rounds = block.rounds;
-          if (block.type == 5) {
+          if (block.type == 5 || (rounds <= 1 && block.cycles > 1)) {
             rounds = block.cycles;
           }
           for (var k = 0; k < rounds; k++) {
@@ -283,7 +283,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
         // Rounds specific
         if ((block.rounds > 1 || block.cycles > 1) && block.type != 0) {
           var rounds = block.rounds;
-          if (block.type == 5) {
+          if (block.type == 5 || (rounds <= 1 && block.cycles > 1)) {
             rounds = block.cycles;
           }
           if (ex.resRepsRounds != null && ex.resRepsRounds != "") {
@@ -405,25 +405,31 @@ class _EditResultsPageState extends State<EditResultsPage> {
   _updateReps(pos, value) {
     int val = 0;
     if (value != "") {
-      val = int.parse(value);
+      val = int.tryParse(value) ?? 0;
     }
     if (rrounds.length > pos && rrounds[pos] != "") {
       var ar = rrounds[pos].split('-');
       if (ar.length > 1) {
         for (var i = 1; i < ar.length; i++) {
-          val += int.parse(ar[i]);
+          if (ar[i] != "") {
+            val += int.tryParse(ar[i]) ?? 0;
+          }
         }
       }
     }
-    reps[pos] = val;
+    if (reps.length > pos) {
+      reps[pos] = val;
+    }
   }
 
   _updateWeight(pos, value) {
     double val = 0;
     if (value != "") {
-      val = double.parse(value);
+      val = double.tryParse(value) ?? 0.0;
     }
-    weight[pos] = val;
+    if (weight.length > pos) {
+      weight[pos] = val;
+    }
   }
 
   _updateAllReps1(value) {
@@ -494,22 +500,21 @@ class _EditResultsPageState extends State<EditResultsPage> {
   }
 
   updateResults() {
-    print(block.movements);
+    if (isUpdating) return;
+    setState(() {
+      isUpdating = true;
+    });
     for (var i1 = 0; i1 < block.movements.length; i1++) {
-      if (rrounds.length > 0) {
-        if (rrounds[i1] != "") {
-          var t1 = rrounds[i1];
-          if (t1[rrounds[i1].length - 1] == "-") {
-            rrounds[i1] = rrounds[i1].substring(0, rrounds[i1].length - 1);
-          }
+      if (rrounds.length > i1 && rrounds[i1] != "") {
+        var t1 = rrounds[i1];
+        if (t1.endsWith("-")) {
+          rrounds[i1] = t1.substring(0, t1.length - 1);
         }
       }
-      if (wrounds.length > 0) {
-        if (wrounds[i1] != "") {
-          var t2 = wrounds[i1];
-          if (t2[wrounds[i1].length - 1] == "-") {
-            wrounds[i1] = wrounds[i1].substring(0, wrounds[i1].length - 1);
-          }
+      if (wrounds.length > i1 && wrounds[i1] != "") {
+        var t2 = wrounds[i1];
+        if (t2.endsWith("-")) {
+          wrounds[i1] = t2.substring(0, t2.length - 1);
         }
       }
     }
@@ -703,7 +708,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
             !block.simple) {
           var brounds = block.rounds;
           var erounds = "";
-          if (block.type == 5) {
+          if (block.type == 5 || (brounds <= 1 && block.cycles > 1)) {
             brounds = block.cycles;
           }
           for (var n = 0; n < brounds; n++) {
@@ -713,11 +718,11 @@ class _EditResultsPageState extends State<EditResultsPage> {
           erounds = tmp;
           if (ex.resRepsRounds != null && ex.resRepsRounds != "") {
             var arr21 = ex.resRepsRounds.split("|");
-            arr21.removeLast();
-            print(arr21);
-            print(rrounds[i]);
+            if (arr21.isNotEmpty && arr21.last.isEmpty) {
+              arr21.removeLast();
+            }
             if (arr21.length > cl) {
-              if (rrounds[i] != "") {
+              if (rrounds.length > i && rrounds[i] != "") {
                 arr21[cl] = rrounds[i].toString();
               } else {
                 arr21[cl] = "0";
@@ -726,7 +731,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
               for (var j21 = arr21.length - 1; j21 < cl + 1; j21++) {
                 arr21.add("0");
               }
-              if (rrounds[i] != "") {
+              if (rrounds.length > i && rrounds[i] != "") {
                 arr21[cl] = rrounds[i].toString();
               }
             }
@@ -747,9 +752,11 @@ class _EditResultsPageState extends State<EditResultsPage> {
 
           if (ex.resWeightRounds != null && ex.resWeightRounds != "") {
             var arr22 = ex.resWeightRounds.split("|");
-            arr22.removeLast();
+            if (arr22.isNotEmpty && arr22.last.isEmpty) {
+              arr22.removeLast();
+            }
             if (arr22.length > cl) {
-              if (wrounds[i] != "") {
+              if (wrounds.length > i && wrounds[i] != "") {
                 arr22[cl] = wrounds[i].toString();
               } else {
                 arr22[cl] = "0";
@@ -758,7 +765,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
               for (var j22 = arr22.length - 1; j22 < cl + 1; j22++) {
                 arr22.add("0");
               }
-              if (wrounds[i] != "") {
+              if (wrounds.length > i && wrounds[i] != "") {
                 arr22[cl] = wrounds[i].toString();
               }
             }
@@ -767,7 +774,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
             }
           } else {
             for (var j22 = 0; j22 < item.clients.length; j22++) {
-              if (wrounds.length > 0) {
+              if (wrounds.length > i) {
                 if (j22 != cl || wrounds[i] == "") {
                   strwr += erounds + "|";
                 } else {
@@ -783,13 +790,20 @@ class _EditResultsPageState extends State<EditResultsPage> {
       }
 
       for (var j = 0; j < block.movements.length; j++) {
-        block.movements[j].resRepsGroup = arReps[j];
-        block.movements[j].resWeightGroup = arWeight[j];
-        if (arRepsRounds.length > 0 && arWeightRounds.length > 0) {
+        if (arReps.length > j) block.movements[j].resRepsGroup = arReps[j];
+        if (arWeight.length > j) block.movements[j].resWeightGroup = arWeight[j];
+        if (arRepsRounds.length > j && arRepsRounds[j].isNotEmpty) {
           block.movements[j].resRepsRounds = arRepsRounds[j];
+        }
+        if (arWeightRounds.length > j && arWeightRounds[j].isNotEmpty) {
           block.movements[j].resWeightRounds = arWeightRounds[j];
         }
       }
+      block.notesSimple = nsimple;
+      block.notesRes = nsimple;
+      if (amrap.length > 0) block.amrapSimple = amrap;
+      if (valueSimple.length > 0) block.valueSimple = valueSimple;
+      if (scaledSimple.length > 0) block.scaledSimple = scaledSimple;
       FirebaseSender.updateResultsGroup(
           id,
           item.program.id,
@@ -835,6 +849,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
         }
       }
       block.notesSimple = nsimple;
+      block.notesRes = nsimple;
       if (amrap.length > 0) block.amrapSimple = amrap;
       if (valueSimple.length > 0) block.valueSimple = valueSimple;
       if (scaledSimple.length > 0) block.scaledSimple = scaledSimple;
@@ -851,7 +866,9 @@ class _EditResultsPageState extends State<EditResultsPage> {
     ));
 
     Future.delayed(const Duration(milliseconds: 1000), () {
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context, true);
+      }
     });
   }
 
@@ -944,10 +961,14 @@ class _EditResultsPageState extends State<EditResultsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: AppColors.bgColor,
-      body: MediaQuery(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        key: _scaffoldKey,
+        resizeToAvoidBottomInset: true,
+        backgroundColor: AppColors.bgColor,
+        body: MediaQuery(
         child: Container(
           color: AppColors.bgColor,
           padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
@@ -981,7 +1002,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
         ),
         data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
       ),
-    );
+    ));
   }
 
   _getContent() {
@@ -1214,14 +1235,11 @@ class _EditResultsPageState extends State<EditResultsPage> {
                   ),
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   onChanged: (text) {
-                    if (block.cycles > 1 ||
-                        (block.rounds > 1 &&
-                            block.type != 0 &&
-                            block.type != 5)) {
+                    if ((block.rounds > 1 || block.cycles > 1) &&
+                        block.type != 0) {
                       updateRepsRound(i, 0, text);
-                    } else {
-                      _updateReps(i, text);
                     }
+                    _updateReps(i, text);
                   },
                 )),
           );
@@ -1259,13 +1277,11 @@ class _EditResultsPageState extends State<EditResultsPage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onChanged: (text) {
-                          if (block.cycles > 1 ||
-                              (block.rounds > 1 &&
-                                  (block.type == 1 || block.type == 4))) {
+                          if ((block.rounds > 1 || block.cycles > 1) &&
+                              block.type != 0) {
                             updateRepsRound(i, 0, text);
-                          } else {
-                            _updateReps(i, text);
                           }
+                          _updateReps(i, text);
                         },
                       )),
                 ],
@@ -1303,13 +1319,11 @@ class _EditResultsPageState extends State<EditResultsPage> {
                           FilteringTextInputFormatter.digitsOnly
                         ],
                         onChanged: (text) {
-                          if (block.cycles > 1 ||
-                              (block.rounds > 1 &&
-                                  (block.type == 1 || block.type == 4))) {
+                          if ((block.rounds > 1 || block.cycles > 1) &&
+                              block.type != 0) {
                             updateRepsRound(i, 0, text);
-                          } else {
-                            _updateReps(i, text);
                           }
+                          _updateReps(i, text);
                         },
                       )),
                 ],
@@ -1410,14 +1424,11 @@ class _EditResultsPageState extends State<EditResultsPage> {
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           onChanged: (text) {
-                            if (block.cycles > 1 ||
-                                (block.rounds > 1 &&
-                                    block.type != 0 &&
-                                    block.type != 5)) {
+                            if ((block.rounds > 1 || block.cycles > 1) &&
+                                block.type != 0) {
                               updateRepsRound(i, 0, text);
-                            } else {
-                              _updateReps(i, text);
                             }
+                            _updateReps(i, text);
                           },
                         )),
                     Container(
@@ -1449,13 +1460,11 @@ class _EditResultsPageState extends State<EditResultsPage> {
                               RegExp(r'^\d+\.?\d*'))
                         ],
                         onChanged: (text) {
-                          if (block.cycles > 1 ||
-                              (block.rounds > 1 &&
-                                  (block.type == 1 || block.type == 4))) {
+                          if ((block.rounds > 1 || block.cycles > 1) &&
+                              block.type != 0) {
                             updateWeightRound(i, 0, text);
-                          } else {
-                            _updateWeight(i, text);
                           }
+                          _updateWeight(i, text);
                         },
                       ),
                     ),
@@ -1521,6 +1530,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
             controller: ctrlSimple,
             style: TextStyle(color: AppColors.textColor),
             maxLines: null,
+            textInputAction: TextInputAction.done,
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: "Notes",
@@ -1582,7 +1592,7 @@ class _EditResultsPageState extends State<EditResultsPage> {
     var rounds = block.rounds;
     //if(block.cycles > 1 || (block.rounds > 1 && (block.type == 1 || block.type == 4))) {
     if ((block.rounds > 1 || block.cycles > 1) && block.type != 0) {
-      if (block.type == 5) {
+      if (block.type == 5 || (rounds <= 1 && block.cycles > 1)) {
         rounds = block.cycles;
       }
       for (var i = 1; i < rounds; i++) {
